@@ -2,17 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>30k Websites – The website you've been putting off. Done.</title>
   <meta name="description" content="A clean one‑page website delivered in 48 hours for ₦30,000. Stop building everything on social media." />
   <meta property="og:title" content="30k Websites – The website you've been putting off. Done." />
   <meta property="og:description" content="Your digital home, built in 48 hours. ₦30,000 one‑time. No algorithms." />
   <meta property="og:type" content="website" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Mobile zoom fix – iOS won't zoom when inputs are focused */
+    input, select, textarea {
+      font-size: 16px !important;
+    }
     body {
       background: #0A1547;
       font-family: 'Geist', system-ui, sans-serif;
@@ -22,62 +28,73 @@
     .font-body { font-family: 'Geist', system-ui, sans-serif; }
     .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
   </style>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KLDC32KL');</script>
+  <!-- End Google Tag Manager -->
+
 </head>
 <body class="text-[#F5F1E8]">
 
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLDC32KL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLDC32KL"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <!-- Navigation -->
-  <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between max-w-7xl mx-auto" style="background: #0A1547;">
+  <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-3 flex items-center justify-between max-w-7xl mx-auto" style="background: #0A1547;">
     <div class="flex items-center gap-1.5">
-      <span class="font-display font-bold tracking-[-0.03em] text-2xl text-[#F5F1E8]">30K</span>
-      <span class="font-mono text-[10px] font-bold tracking-[0.2em] text-[#C8E84A]">WEBSITES</span>
+      <span class="font-display font-bold tracking-[-0.03em] text-xl md:text-2xl text-[#F5F1E8]">30K</span>
+      <span class="font-mono text-[8px] md:text-[10px] font-bold tracking-[0.2em] text-[#C8E84A]">WEBSITES</span>
     </div>
-    <div class="inline-flex items-center gap-2 px-3 py-1 border border-[#C8E84A] border-opacity-40 bg-[#C8E84A] bg-opacity-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1 border border-[#C8E84A] border-opacity-40 bg-[#C8E84A] bg-opacity-10 rounded-sm">
       <span class="w-2 h-2 rounded-full animate-pulse bg-[#C8E84A]"></span>
-      <span class="font-mono text-[11px] font-semibold text-[#C8E84A]">3/10 SLOTS LEFT</span>
+      <span class="font-mono text-[10px] md:text-[11px] font-semibold text-[#C8E84A]">3/10 SLOTS LEFT</span>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <section class="relative pt-32 pb-20 px-4 text-center" style="background: #0A1547;">
+  <section class="relative pt-28 md:pt-32 pb-16 px-4 text-center" style="background: #0A1547;">
     <div class="max-w-7xl mx-auto">
       <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3 font-mono text-[#A8C8FF]">
         <span class="inline-block w-4 h-px bg-[#A8C8FF]"></span> WHAT YOU'RE GETTING
       </div>
-      <h1 class="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[0.9] tracking-[-0.025em]">
+      <h1 class="font-display font-bold text-4xl md:text-7xl lg:text-8xl leading-[0.9] tracking-[-0.025em] max-w-5xl mx-auto">
         The website you've been<br/>putting off. <span class="text-[#C8E84A]">Done.</span>
       </h1>
-      <p class="mt-5 text-lg md:text-xl text-[#A8C8FF] max-w-xl mx-auto font-body">
+      <p class="mt-4 text-base md:text-xl text-[#A8C8FF] max-w-xl mx-auto font-body">
         Built in 48 hours for ₦30,000. Send your content, get your site.
       </p>
 
       <!-- Feature Grid -->
-      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 max-w-4xl mx-auto">
         <div class="flex items-center gap-3 px-5 py-4 text-left bg-[#142158] border border-[#A8C8FF] border-opacity-20">
-          <svg class="w-5 h-5 text-[#C8E84A]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="font-display text-base font-semibold">Your Bio & Story</span>
+          <svg class="w-5 h-5 text-[#C8E84A] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="font-display text-sm md:text-base font-semibold">Your Bio & Story</span>
         </div>
         <div class="flex items-center gap-3 px-5 py-4 text-left bg-[#142158] border border-[#A8C8FF] border-opacity-20">
-          <svg class="w-5 h-5 text-[#C8E84A]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="font-display text-base font-semibold">Photos & Videos</span>
+          <svg class="w-5 h-5 text-[#C8E84A] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="font-display text-sm md:text-base font-semibold">Photos & Videos</span>
         </div>
         <div class="flex items-center gap-3 px-5 py-4 text-left bg-[#142158] border border-[#A8C8FF] border-opacity-20">
-          <svg class="w-5 h-5 text-[#C8E84A]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="font-display text-base font-semibold">Music / Portfolio</span>
+          <svg class="w-5 h-5 text-[#C8E84A] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="font-display text-sm md:text-base font-semibold">Music / Portfolio</span>
         </div>
         <div class="flex items-center gap-3 px-5 py-4 text-left bg-[#142158] border border-[#A8C8FF] border-opacity-20">
-          <svg class="w-5 h-5 text-[#C8E84A]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="font-display text-base font-semibold">All Your Social Links</span>
+          <svg class="w-5 h-5 text-[#C8E84A] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="font-display text-sm md:text-base font-semibold">All Your Social Links</span>
         </div>
         <div class="flex items-center gap-3 px-5 py-4 text-left bg-[#142158] border border-[#A8C8FF] border-opacity-20">
-          <svg class="w-5 h-5 text-[#C8E84A]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="font-display text-base font-semibold">Contact & Booking Forms</span>
+          <svg class="w-5 h-5 text-[#C8E84A] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="font-display text-sm md:text-base font-semibold">Contact & Booking Forms</span>
         </div>
         <div class="flex items-center gap-3 px-5 py-4 text-left bg-[#142158] border border-[#A8C8FF] border-opacity-20">
-          <svg class="w-5 h-5 text-[#C8E84A]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="font-display text-base font-semibold">Fast, Mobile‑Ready, Done</span>
+          <svg class="w-5 h-5 text-[#C8E84A] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="font-display text-sm md:text-base font-semibold">Fast, Mobile‑Ready, Done</span>
         </div>
       </div>
 
@@ -88,20 +105,20 @@
         </button>
         <div class="inline-flex items-center gap-2 px-3 py-1 border border-[#C8E84A] border-opacity-40 bg-[#C8E84A] bg-opacity-10">
           <span class="w-2 h-2 rounded-full animate-pulse bg-[#C8E84A]"></span>
-          <span class="font-mono text-[11px] font-semibold text-[#C8E84A]">3/10 SLOTS LEFT</span>
+          <span class="font-mono text-[10px] md:text-[11px] font-semibold text-[#C8E84A]">3/10 SLOTS LEFT</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Who It's For -->
-  <section class="py-20 px-4" style="background: #F5F1E8; color: #08091F;">
+  <section class="py-16 md:py-20 px-4" style="background: #F5F1E8; color: #08091F;">
     <div class="max-w-7xl mx-auto">
-      <div class="max-w-3xl mb-10">
+      <div class="max-w-3xl mb-8 md:mb-10">
         <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3 font-mono text-[#0A1547]">
           <span class="inline-block w-4 h-px bg-[#0A1547]"></span> WHO IT'S FOR
         </div>
-        <h2 class="font-display text-4xl md:text-6xl font-bold leading-[0.95]">
+        <h2 class="font-display text-3xl md:text-6xl font-bold leading-[0.95]">
           Built for the creators<br/>building <span class="text-[#E63946]">their future</span>.
         </h2>
       </div>
@@ -110,50 +127,50 @@
   </section>
 
   <!-- How It Works -->
-  <section class="py-20 px-4" style="background: #0A1547;">
+  <section class="py-16 md:py-20 px-4" style="background: #0A1547;">
     <div class="max-w-5xl mx-auto text-center">
       <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3 font-mono text-[#A8C8FF]">
         <span class="inline-block w-4 h-px bg-[#A8C8FF]"></span> HOW IT WORKS
       </div>
-      <h2 class="font-display text-4xl md:text-6xl font-bold leading-[0.95] mb-12">Three steps. That's it.</h2>
+      <h2 class="font-display text-3xl md:text-6xl font-bold leading-[0.95] mb-10 md:mb-12">Three steps. That's it.</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="stepsGrid"></div>
     </div>
   </section>
 
   <!-- Differentiator -->
-  <section class="py-20 px-4 relative" style="background: #E63946;">
+  <section class="py-16 md:py-20 px-4 relative" style="background: #E63946;">
     <div class="absolute inset-0 opacity-15" style="background-image: repeating-linear-gradient(90deg, #F5F1E822 0 1px, transparent 1px 14px);"></div>
     <div class="relative max-w-7xl mx-auto">
       <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3 font-mono text-[#F5F1E8]">
         <span class="inline-block w-4 h-px bg-[#F5F1E8]"></span> BEYOND THE LINK
       </div>
-      <h2 class="font-display text-4xl md:text-5xl font-bold leading-[0.95] mb-10">Most developers give you just a link.<br/>We're seasoned technical marketers.</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="diffGrid"></div>
+      <h2 class="font-display text-3xl md:text-5xl font-bold leading-[0.95] mb-8 md:mb-10">Most developers give you just a link.<br/>We're seasoned technical marketers.</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8" id="diffGrid"></div>
     </div>
   </section>
 
   <!-- Add-ons -->
-  <section class="py-20 px-4" style="background: #F5F1E8; color: #08091F;">
+  <section class="py-16 md:py-20 px-4" style="background: #F5F1E8; color: #08091F;">
     <div class="max-w-5xl mx-auto">
       <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3 font-mono text-[#0A1547]">
         <span class="inline-block w-4 h-px bg-[#0A1547]"></span> ADD‑ONS FOR A MORE PROFESSIONAL TOUCH
       </div>
-      <h2 class="font-display text-4xl md:text-5xl font-bold leading-[0.95] mb-12">Level it up.</h2>
+      <h2 class="font-display text-3xl md:text-5xl font-bold leading-[0.95] mb-10 md:mb-12">Level it up.</h2>
       <div class="grid md:grid-cols-3 gap-6" id="addonsGrid"></div>
     </div>
   </section>
 
   <!-- Pricing & Conditions -->
-  <section class="py-20 px-4" style="background: #0A1547;">
+  <section class="py-16 md:py-20 px-4" style="background: #0A1547;">
     <div class="max-w-7xl mx-auto text-center">
       <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3 font-mono text-[#C8E84A]">
         <span class="inline-block w-4 h-px bg-[#C8E84A]"></span> PRICING & CONDITIONS
       </div>
-      <h2 class="font-display text-4xl md:text-6xl font-bold leading-[0.95] mb-8">
+      <h2 class="font-display text-3xl md:text-6xl font-bold leading-[0.95] mb-6 md:mb-8">
         ₦30,000. One‑time.<br/><span class="text-[#C8E84A]">One‑page website.</span>
       </h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-10 md:mb-12">
         <div class="p-6 text-left bg-[#142158] border border-[#A8C8FF] border-opacity-20">
           <div class="font-mono text-[10px] tracking-[0.2em] mb-3 font-semibold text-[#A8C8FF]">YOU GET</div>
           <ul class="space-y-2" id="youGetList"></ul>
@@ -167,7 +184,7 @@
       <div class="mb-6">
         <div class="inline-flex items-center gap-2 px-3 py-1 border border-[#C8E84A] border-opacity-40 bg-[#C8E84A] bg-opacity-10">
           <span class="w-2 h-2 rounded-full animate-pulse bg-[#C8E84A]"></span>
-          <span class="font-mono text-[11px] font-semibold text-[#C8E84A]">3/10 SLOTS LEFT</span>
+          <span class="font-mono text-[10px] md:text-[11px] font-semibold text-[#C8E84A]">3/10 SLOTS LEFT</span>
         </div>
       </div>
       <button onclick="openModal()" class="inline-flex items-center gap-2 px-6 py-3 font-display font-bold text-sm tracking-[0.1em] bg-[#F5F1E8] text-[#08091F] hover:bg-[#C8E84A] transition-colors">
@@ -177,13 +194,13 @@
   </section>
 
   <!-- Example Website -->
-  <section class="py-20 px-4 text-center" style="background: #F5F1E8; color: #08091F;">
+  <section class="py-16 md:py-20 px-4 text-center" style="background: #F5F1E8; color: #08091F;">
     <div class="max-w-5xl mx-auto">
       <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3 font-mono text-[#0A1547]">
         <span class="inline-block w-4 h-px bg-[#0A1547]"></span> SEE WHAT WE'VE DONE
       </div>
-      <h2 class="font-display text-4xl md:text-5xl font-bold leading-[0.95] mb-4">A real example.</h2>
-      <p class="text-lg mb-8 max-w-xl mx-auto font-body" style="color:#444;">Clean, fast, and ready to represent its owner — built with the same principles.</p>
+      <h2 class="font-display text-3xl md:text-5xl font-bold leading-[0.95] mb-4">A real example.</h2>
+      <p class="text-base md:text-lg mb-6 max-w-xl mx-auto font-body" style="color:#444;">Clean, fast, and ready to represent its owner — built with the same principles.</p>
       <a href="https://afrocue.xyz" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 font-display font-bold text-sm tracking-[0.1em] bg-[#08091F] text-[#F5F1E8] hover:bg-[#0A1547] transition-colors">
         VISIT AFROCUE.XYZ <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
@@ -192,42 +209,42 @@
   </section>
 
   <!-- What You'll Need -->
-  <section class="py-20 px-4" style="background: #F5F1E8; color: #08091F;">
+  <section class="py-16 md:py-20 px-4" style="background: #F5F1E8; color: #08091F;">
     <div class="max-w-3xl mx-auto">
       <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3 font-mono text-[#0A1547]">
         <span class="inline-block w-4 h-px bg-[#0A1547]"></span> WHAT YOU'LL NEED TO SEND US
       </div>
-      <h2 class="font-display text-4xl md:text-5xl font-bold leading-[0.95] mb-8">Just a few things to get started.</h2>
+      <h2 class="font-display text-3xl md:text-5xl font-bold leading-[0.95] mb-8">Just a few things to get started.</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="needGrid"></div>
-      <p class="mt-8 text-sm font-body" style="color:#555;">The more detail you send, the faster we can build a site that feels like you.</p>
+      <p class="mt-6 text-sm font-body" style="color:#555;">The more detail you send, the faster we can build a site that feels like you.</p>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="py-20 px-4" style="background: #F5F1E8; color: #08091F;">
+  <section class="py-16 md:py-20 px-4" style="background: #F5F1E8; color: #08091F;">
     <div class="max-w-4xl mx-auto">
       <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3 font-mono text-[#0A1547]">
         <span class="inline-block w-4 h-px bg-[#0A1547]"></span> FAQ
       </div>
-      <h2 class="font-display text-4xl md:text-5xl font-bold leading-[0.95] mb-10">Questions, answered.</h2>
+      <h2 class="font-display text-3xl md:text-5xl font-bold leading-[0.95] mb-8 md:mb-10">Questions, answered.</h2>
       <div id="faqContainer"></div>
     </div>
   </section>
 
   <!-- Final CTA -->
-  <section class="py-20 px-4 text-center relative" style="background: #08091F;">
+  <section class="py-16 md:py-20 px-4 text-center relative" style="background: #08091F;">
     <div class="max-w-3xl mx-auto">
-      <h2 class="font-display font-bold text-4xl md:text-6xl leading-[0.92] tracking-[-0.02em]">
+      <h2 class="font-display font-bold text-3xl md:text-6xl leading-[0.92] tracking-[-0.02em]">
         You've already built your audience.<br/>Now build a place that<br/><span class="text-[#C8E84A]">belongs to you.</span>
       </h2>
-      <p class="mt-6 text-lg text-[#A8C8FF] max-w-xl mx-auto font-body">30k Websites. 48 hours. ₦30,000.</p>
-      <div class="mt-8 flex flex-col items-center gap-4">
+      <p class="mt-4 md:mt-6 text-base md:text-lg text-[#A8C8FF] max-w-xl mx-auto font-body">30k Websites. 48 hours. ₦30,000.</p>
+      <div class="mt-6 md:mt-8 flex flex-col items-center gap-4">
         <button onclick="openModal()" class="inline-flex items-center gap-2 px-6 py-3 font-display font-bold text-sm tracking-[0.1em] bg-[#F5F1E8] text-[#08091F] hover:bg-[#C8E84A] transition-colors">
           OWN MY DIGITAL HOME <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
         </button>
         <div class="inline-flex items-center gap-2 px-3 py-1 border border-[#C8E84A] border-opacity-40 bg-[#C8E84A] bg-opacity-10">
           <span class="w-2 h-2 rounded-full animate-pulse bg-[#C8E84A]"></span>
-          <span class="font-mono text-[11px] font-semibold text-[#C8E84A]">3/10 SLOTS LEFT</span>
+          <span class="font-mono text-[10px] md:text-[11px] font-semibold text-[#C8E84A]">3/10 SLOTS LEFT</span>
         </div>
       </div>
     </div>
@@ -238,8 +255,8 @@
     <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
       <div>
         <div class="flex items-center gap-1.5">
-          <span class="font-display font-bold tracking-[-0.03em] text-2xl text-[#F5F1E8]">30K</span>
-          <span class="font-mono text-[10px] font-bold tracking-[0.2em] text-[#C8E84A]">WEBSITES</span>
+          <span class="font-display font-bold tracking-[-0.03em] text-xl md:text-2xl text-[#F5F1E8]">30K</span>
+          <span class="font-mono text-[8px] md:text-[10px] font-bold tracking-[0.2em] text-[#C8E84A]">WEBSITES</span>
         </div>
         <p class="mt-3 text-sm text-[#A8C8FF] font-body">Websites for creators. Built by marketers.</p>
       </div>
@@ -338,90 +355,42 @@
   </div>
 
   <script>
-    // GTM
+    // DataLayer init
     window.dataLayer = window.dataLayer || [];
-    // Load Google Tag Manager
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KLDC32KL');
 
-    // Populate static lists
+    // Populate static sections
     const audience = ["Artists","Musicians","DJs","Photographers","Videographers","Creative Directors","Content Creators","Event Hosts","MCs","Influencers","Entrepreneurs","Small Business Owners"];
-    const audienceGrid = document.getElementById('audienceGrid');
-    audience.forEach(a => {
-      const div = document.createElement('div');
-      div.className = 'group flex items-center justify-between px-4 py-3 cursor-default transition-colors bg-white border border-[#08091F] border-opacity-20 hover:bg-[#08091F] hover:text-[#F5F1E8]';
-      div.innerHTML = `<span class="font-display text-base font-bold">${a}</span><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>`;
-      audienceGrid.appendChild(div);
-    });
+    document.getElementById('audienceGrid').innerHTML = audience.map(a => `<div class="group flex items-center justify-between px-4 py-3 cursor-pointer transition-colors bg-white border border-[#08091F] border-opacity-20 hover:bg-[#08091F] hover:text-[#F5F1E8]"><span class="font-display text-sm md:text-base font-bold">${a}</span><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>`).join('');
 
     const steps = [
       {step:"01",title:"Reach Out",desc:"Fill the form with your content brief — bio, photos, videos, links, brand preferences."},
       {step:"02",title:"We Build",desc:"We design and build your one‑page site with best practices and tracking installed."},
       {step:"03",title:"Delivered",desc:"Within 48 hours your site goes live. You get the link and everything you need."}
     ];
-    const stepsGrid = document.getElementById('stepsGrid');
-    steps.forEach(s => {
-      const div = document.createElement('div');
-      div.className = 'text-center p-6 bg-[#142158] border border-[#A8C8FF] border-opacity-20';
-      div.innerHTML = `<div class="font-display text-5xl font-bold mb-2 text-[#C8E84A]">${s.step}</div><div class="font-display text-lg font-bold mb-1">${s.title}</div><p class="text-sm font-body text-[#A8C8FF]">${s.desc}</p>`;
-      stepsGrid.appendChild(div);
-    });
+    document.getElementById('stepsGrid').innerHTML = steps.map(s => `<div class="text-center p-6 bg-[#142158] border border-[#A8C8FF] border-opacity-20"><div class="font-display text-4xl md:text-5xl font-bold mb-2 text-[#C8E84A]">${s.step}</div><div class="font-display text-lg font-bold mb-1">${s.title}</div><p class="text-sm md:text-base font-body text-[#A8C8FF]">${s.desc}</p></div>`).join('');
 
     const diffs = [
       {l:"BEST PRACTICES",v:"Performance, accessibility, and SEO fundamentals baked in from the start — not an afterthought."},
       {l:"TRACKING & GTM",v:"A Google Tag Manager container installed, ready for Meta, TikTok, Snapchat, and any future pixels you need."},
       {l:"INQUIRIES",v:"A simple contact form that sends messages straight to your email. No copy‑pasting addresses."}
     ];
-    const diffGrid = document.getElementById('diffGrid');
-    diffs.forEach(d => {
-      const div = document.createElement('div');
-      div.className = 'border-l-2 border-[#F5F1E8] border-opacity-40 pl-4';
-      div.innerHTML = `<div class="font-mono text-[9px] tracking-[0.25em] mb-2 opacity-80">${d.l}</div><p class="text-sm font-body">${d.v}</p>`;
-      diffGrid.appendChild(div);
-    });
+    document.getElementById('diffGrid').innerHTML = diffs.map(d => `<div class="border-l-2 border-[#F5F1E8] border-opacity-40 pl-4"><div class="font-mono text-[9px] tracking-[0.25em] mb-2 opacity-80">${d.l}</div><p class="text-sm md:text-base font-body">${d.v}</p></div>`).join('');
 
     const addons = [
       {label:"Custom Domain",price:"₦30,000",period:"one‑time/year",desc:"yourname.com — we'll purchase and connect it."},
       {label:"Professional Email",price:"₦30,000",period:"for one year",desc:"hello@yourname.com hosted on Zoho. Clean and professional."},
       {label:"Paid Ads",price:"Let's talk",period:"",desc:"Where we thrive. Strategy, execution, and measurement handled for you."}
     ];
-    const addonsGrid = document.getElementById('addonsGrid');
-    addons.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'p-5 flex flex-col bg-white border border-[#08091F] border-opacity-20';
-      div.innerHTML = `<div class="flex items-center gap-2 mb-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="font-display text-base font-bold">${item.label}</span></div><div class="flex items-baseline gap-1 mb-2"><span class="font-display text-2xl font-bold">${item.price}</span>${item.period ? `<span class="font-mono text-xs" style="color:#666;">${item.period}</span>` : ''}</div><p class="text-sm font-body" style="color:#444;">${item.desc}</p>`;
-      addonsGrid.appendChild(div);
-    });
+    document.getElementById('addonsGrid').innerHTML = addons.map(item => `<div class="p-5 flex flex-col bg-white border border-[#08091F] border-opacity-20"><div class="flex items-center gap-2 mb-2"><svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="font-display text-base font-bold">${item.label}</span></div><div class="flex items-baseline gap-1 mb-2"><span class="font-display text-2xl font-bold">${item.price}</span>${item.period ? `<span class="font-mono text-xs" style="color:#666;">${item.period}</span>` : ''}</div><p class="text-sm font-body" style="color:#444;">${item.desc}</p></div>`).join('');
 
     const youGet = ["One‑page branded website","48‑hour delivery","Tracking & GTM container","Best practices applied","Contact/inquiry form"];
-    const youGetList = document.getElementById('youGetList');
-    youGet.forEach(item => {
-      const li = document.createElement('li');
-      li.className = 'flex items-start gap-2 text-sm font-body text-[#A8C8FF]';
-      li.innerHTML = `<svg class="w-4 h-4 text-[#C8E84A] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ${item}`;
-      youGetList.appendChild(li);
-    });
+    document.getElementById('youGetList').innerHTML = youGet.map(item => `<li class="flex items-start gap-2 text-sm md:text-base font-body text-[#A8C8FF]"><svg class="w-4 h-4 text-[#C8E84A] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ${item}</li>`).join('');
 
     const conditions = ["Detailed content brief — the more detail, the better the result.","Provide a reference website or style you like.","No endless revisions. A 30k website. Clear brief = nailed it.","7 days of minor support after delivery. New requests separate."];
-    const conditionsList = document.getElementById('conditionsList');
-    conditions.forEach(item => {
-      const li = document.createElement('li');
-      li.className = 'flex items-start gap-2 text-sm font-body text-[#A8C8FF]';
-      li.innerHTML = `<span class="text-[#C8E84A] mt-0.5">•</span> ${item}`;
-      conditionsList.appendChild(li);
-    });
+    document.getElementById('conditionsList').innerHTML = conditions.map(item => `<li class="flex items-start gap-2 text-sm md:text-base font-body text-[#A8C8FF]"><span class="text-[#C8E84A] mt-0.5">•</span> ${item}</li>`).join('');
 
     const needItems = ["A short bio","Photos","Social links","Contact details","Any design preferences"];
-    const needGrid = document.getElementById('needGrid');
-    needItems.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'flex items-center gap-3 px-4 py-3 bg-white border border-[#08091F] border-opacity-20';
-      div.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="text-base font-body font-medium">${item}</span>`;
-      needGrid.appendChild(div);
-    });
+    document.getElementById('needGrid').innerHTML = needItems.map(item => `<div class="flex items-center gap-3 px-4 py-3 bg-white border border-[#08091F] border-opacity-20"><svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="text-sm md:text-base font-body font-medium">${item}</span></div>`).join('');
 
     const faqs = [
       {q:"What do I need to provide?",a:"A detailed content brief: bio, photos, videos, music links, social handles, brand preferences. Clear brief = great result."},
@@ -431,11 +400,8 @@
       {q:"How do I pay?",a:"After you fill the form and we review your request, we'll send a payment link. Your slot is confirmed once payment is received."},
       {q:"What happens after 48 hours?",a:"Your site is live. Minor support for 7 days. After that, new requests are treated as separate projects."}
     ];
-    const faqContainer = document.getElementById('faqContainer');
-    faqs.forEach(f => {
-      const div = document.createElement('div');
-      div.className = 'border-b border-[#08091F] border-opacity-10';
-      div.innerHTML = `
+    document.getElementById('faqContainer').innerHTML = faqs.map(f => `
+      <div class="border-b border-[#08091F] border-opacity-10">
         <button class="w-full flex items-center justify-between gap-4 py-4 text-left font-display text-base font-bold text-[#08091F]">
           <span>${f.q}</span>
           <span class="plus-icon flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center border border-[#08091F]">
@@ -443,34 +409,36 @@
           </span>
         </button>
         <div class="answer hidden pb-4 pr-10 text-sm font-body" style="color:#444;">${f.a}</div>
-      `;
-      div.querySelector('button').addEventListener('click', function() {
-        const answer = this.nextElementSibling;
-        const icon = this.querySelector('.plus-icon');
-        if (answer.classList.contains('hidden')) {
-          answer.classList.remove('hidden');
-          icon.style.transform = 'rotate(45deg)';
-          icon.style.background = '#08091F';
-          icon.querySelector('span').style.color = '#F5F1E8';
-        } else {
+      </div>
+    `).join('');
+    document.querySelectorAll('#faqContainer button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const icon = btn.querySelector('.plus-icon');
+        const isOpen = !answer.classList.contains('hidden');
+        if (isOpen) {
           answer.classList.add('hidden');
           icon.style.transform = 'rotate(0deg)';
           icon.style.background = 'transparent';
           icon.querySelector('span').style.color = '#08091F';
+        } else {
+          answer.classList.remove('hidden');
+          icon.style.transform = 'rotate(45deg)';
+          icon.style.background = '#08091F';
+          icon.querySelector('span').style.color = '#F5F1E8';
         }
       });
-      faqContainer.appendChild(div);
     });
 
     // Modal functions
-    function openModal() {
+    window.openModal = function() {
       document.getElementById('modal').classList.remove('hidden');
-    }
-    function closeModal(e) {
+    };
+    window.closeModal = function(e) {
       if (e.target === document.getElementById('modal')) {
         document.getElementById('modal').classList.add('hidden');
       }
-    }
+    };
 
     // Form submission
     document.getElementById('inquiryForm').addEventListener('submit', async function(e) {
@@ -502,10 +470,9 @@
         });
         document.getElementById('modalForm').classList.add('hidden');
         document.getElementById('modalSuccess').classList.remove('hidden');
-        if (window.dataLayer) window.dataLayer.push({event: 'website_inquiry', creatorType: data.creatorType});
+        window.dataLayer.push({ event: 'website_inquiry', creatorType: data.creatorType });
       } catch (err) {
         console.error(err);
-        // Still show success for demo
         document.getElementById('modalForm').classList.add('hidden');
         document.getElementById('modalSuccess').classList.remove('hidden');
       }
