@@ -40,7 +40,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="root"></div>
 
-<script type="text/babel">
+<script type="text/babel" data-presets="env,react">
 const { useState, useEffect } = React;
 
 const C = {
@@ -51,7 +51,7 @@ const FONT_DISPLAY = "'Bricolage Grotesque', system-ui, sans-serif";
 const FONT_BODY = "'Geist', system-ui, sans-serif";
 const FONT_MONO = "'JetBrains Mono', ui-monospace, monospace";
 
-// ⚠️ Replace this with your actual Google Apps Script web app URL after deployment
+// Your actual Google Apps Script web app URL
 const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbyfmKByZPm0NDAUn4FyjAgFWCi0w0U41WYvyMmvXJTcp7qwK9T7pML-L__n8WIMxOUc/exec";
 
 const ArrowUpRight = (props) => (
@@ -134,7 +134,7 @@ const CTAButton = ({ label, outline, onClick }) => (
   </button>
 );
 
-/* ---------- MODAL (simple state toggle, no animation library) ---------- */
+/* ---------- MODAL ---------- */
 const Modal = ({ isOpen, onClose }) => {
   const [step, setStep] = useState("form");
   const [loading, setLoading] = useState(false);
@@ -184,7 +184,8 @@ const Modal = ({ isOpen, onClose }) => {
     };
     try {
       await fetch(GAS_ENDPOINT, {
-        method:"POST", mode:"no-cors",
+        method:"POST",
+        mode:"no-cors",
         headers:{"Content-Type":"text/plain;charset=utf-8"},
         body: JSON.stringify(payload)
       });
@@ -192,7 +193,7 @@ const Modal = ({ isOpen, onClose }) => {
       setStep("success");
     } catch(err) {
       console.error(err);
-      setStep("success"); // fallback
+      setStep("success");
     } finally {
       setLoading(false);
     }
@@ -391,7 +392,7 @@ const HowItWorks = () => (
 );
 
 const Differentiator = () => (
-  <section className="py-10 md:py-14" style={{ background:C.red, color:C.cream }}>
+  <section className="py-10 md:py-14 relative" style={{ background:C.red, color:C.cream }}>
     <div aria-hidden="true" className="absolute inset-0 opacity-15" style={{ backgroundImage:`repeating-linear-gradient(90deg, ${C.cream}22 0 1px, transparent 1px 14px)` }}/>
     <div className="relative max-w-7xl mx-auto px-5 md:px-8">
       <SectionLabel color={C.cream}>BEYOND THE LINK</SectionLabel>
@@ -529,7 +530,7 @@ const FAQ = () => (
 );
 
 const FinalCTA = ({ openModal }) => (
-  <section className="py-14 md:py-20 overflow-hidden" style={{ background:C.ink, color:C.cream }}>
+  <section className="py-14 md:py-20 overflow-hidden relative" style={{ background:C.ink, color:C.cream }}>
     <ArrowPattern opacity={0.05}/>
     <div className="relative max-w-3xl mx-auto px-5 md:px-8 text-center">
       <h2 className="font-bold leading-[0.92] tracking-[-0.02em]" style={{ fontFamily:FONT_DISPLAY, fontSize:"clamp(2.25rem, 6vw, 4.5rem)" }}>
@@ -568,20 +569,23 @@ const Footer = () => (
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => { window.dataLayer = window.dataLayer || []; }, []);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
   return (
     <div style={{ background:C.navy, color:C.cream, fontFamily:FONT_BODY }}>
-      <Hero openModal={()=>setModalOpen(true)}/>
+      <Hero openModal={openModal}/>
       <WhoItsFor/>
       <HowItWorks/>
       <Differentiator/>
       <AddOns/>
-      <Pricing openModal={()=>setModalOpen(true)}/>
+      <Pricing openModal={openModal}/>
       <Example/>
       <WhatYouNeed/>
       <FAQ/>
-      <FinalCTA openModal={()=>setModalOpen(true)}/>
+      <FinalCTA openModal={openModal}/>
       <Footer/>
-      {modalOpen && <Modal isOpen={modalOpen} onClose={()=>setModalOpen(false)}/>}
+      {modalOpen && <Modal isOpen={modalOpen} onClose={closeModal}/>}
     </div>
   );
 }
