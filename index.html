@@ -6,24 +6,17 @@
 <title>30k Websites – The website you've been putting off. Done.</title>
 <meta name="description" content="A clean one‑page website delivered in 48 hours for ₦30,000. Stop building everything on social media." />
 
-<!-- Open Graph -->
 <meta property="og:title" content="30k Websites – The website you've been putting off. Done." />
 <meta property="og:description" content="Your digital home, built in 48 hours. ₦30,000 one‑time. No algorithms." />
 <meta property="og:type" content="website" />
 
-<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
 
-<!-- Tailwind Play CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- React 18 + ReactDOM -->
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-
-<!-- Babel -->
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <!-- Google Tag Manager -->
@@ -32,7 +25,6 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KLDC32KL');</script>
-<!-- End Google Tag Manager -->
 
 <style>
   html, body, #root { height: 100%; }
@@ -41,132 +33,93 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #root:empty::before {
     content: ""; display: block; position: fixed; inset: 0; background: #0A1547;
   }
-  /* Modal transitions */
-  .modal-overlay {
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  .modal-overlay.show {
-    opacity: 1;
-  }
-  .modal-content {
-    transform: scale(0.95) translateY(10px);
-    transition: transform 0.2s ease;
-  }
-  .modal-overlay.show .modal-content {
-    transform: scale(1) translateY(0);
-  }
-  /* Simple fade-in for sections */
-  .section-fade {
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  .section-fade.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
 </style>
 </head>
 <body>
-
-<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLDC32KL"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
 <div id="root"></div>
 
-<script type="text/babel" data-presets="env,react">
-const { useState, useEffect, Fragment } = React;
-
-/* =========================================================================
-   30k WEBSITES – No Framer Motion, just works.
-   ========================================================================= */
+<script type="text/babel">
+const { useState, useEffect } = React;
 
 const C = {
-  navy: "#0A1547",
-  navySoft: "#142158",
-  cream: "#F5F1E8",
-  lime: "#C8E84A",
-  peri: "#A8C8FF",
-  periDeep: "#7BA3E8",
-  red: "#E63946",
-  ink: "#08091F",
+  navy: "#0A1547", navySoft: "#142158", cream: "#F5F1E8", lime: "#C8E84A",
+  peri: "#A8C8FF", periDeep: "#7BA3E8", red: "#E63946", ink: "#08091F"
 };
-
 const FONT_DISPLAY = "'Bricolage Grotesque', system-ui, sans-serif";
 const FONT_BODY = "'Geist', system-ui, sans-serif";
 const FONT_MONO = "'JetBrains Mono', ui-monospace, monospace";
 
-// ⚠️ REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+// ⚠️ Replace this with your actual Google Apps Script web app URL after deployment
 const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbyfmKByZPm0NDAUn4FyjAgFWCi0w0U41WYvyMmvXJTcp7qwK9T7pML-L__n8WIMxOUc/exec";
 
-// ---------- Icons ---------------------------------------------------------
-const Icon = ({ children, size = 16, color = "currentColor", stroke = 2 }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24"
-    fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round">
-    {children}
+const ArrowUpRight = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={props.size||16} height={props.size||16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
   </svg>
 );
-const ArrowUpRight = (p) => <Icon {...p}><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></Icon>;
-const CheckIcon = (p) => <Icon {...p} stroke={3}><polyline points="20 6 9 17 4 12"/></Icon>;
-const ExternalLink = (p) => <Icon {...p}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></Icon>;
-const X = (p) => <Icon {...p}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></Icon>;
-const Loader = (p) => <Icon {...p}><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></Icon>;
+const CheckIcon = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={props.size||16} height={props.size||16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+);
+const ExternalLink = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={props.size||16} height={props.size||16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+  </svg>
+);
+const X = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={props.size||16} height={props.size||16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+);
+const Loader = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={props.size||16} height={props.size||16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-spin">
+    <line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
+  </svg>
+);
 
-// ---------- Arrow Pattern ------------------------------------------------
-const ArrowPattern = ({ opacity = 0.05 }) => (
-  <svg aria-hidden="true" width="100%" height="100%"
-    style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+const ArrowPattern = ({ opacity=0.05 }) => (
+  <svg aria-hidden="true" width="100%" height="100%" style={{ position:"absolute", inset:0, pointerEvents:"none" }}>
     <defs>
       <pattern id="ap" x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse">
         <g stroke={C.peri} strokeWidth="1.3" fill="none" opacity={opacity} transform="translate(18 18)">
-          <path d="M0 18 L18 0" />
-          <path d="M10 0 L18 0 L18 8" />
+          <path d="M0 18 L18 0"/><path d="M10 0 L18 0 L18 8"/>
         </g>
       </pattern>
     </defs>
-    <rect width="100%" height="100%" fill="url(#ap)" />
+    <rect width="100%" height="100%" fill="url(#ap)"/>
   </svg>
 );
 
-// ---------- Logo -----------------------------------------------------------
 const Logo = () => (
   <div className="flex items-center gap-1.5">
-    <span className="font-bold tracking-[-0.03em]" style={{ fontFamily: FONT_DISPLAY, fontSize: "1.6rem", color: C.cream }}>30K</span>
-    <span className="text-[10px] font-bold tracking-[0.2em] mt-1" style={{ fontFamily: FONT_MONO, color: C.lime }}>WEBSITES</span>
+    <span style={{ fontFamily:FONT_DISPLAY, fontSize:"1.6rem", color:C.cream, fontWeight:700, letterSpacing:"-0.03em" }}>30K</span>
+    <span style={{ fontFamily:FONT_MONO, fontSize:"10px", color:C.lime, fontWeight:700, letterSpacing:"0.2em" }}>WEBSITES</span>
   </div>
 );
 
-// ---------- Section Label -------------------------------------------------
-const SectionLabel = ({ children, color = C.peri }) => (
-  <div className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3"
-    style={{ fontFamily: FONT_MONO, color }}>
-    <span className="inline-block w-4 h-px" style={{ background: color }} />
-    {children}
+const SectionLabel = ({ children, color=C.peri }) => (
+  <div className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold mb-3" style={{ fontFamily:FONT_MONO, color }}>
+    <span className="inline-block w-4 h-px" style={{ background:color }}/> {children}
   </div>
 );
 
-// ---------- Slots Badge ---------------------------------------------------
-const SlotsBadge = ({ slotsLeft = 3, total = 10 }) => (
-  <div className="inline-flex items-center gap-2 px-3 py-1 border"
-    style={{ borderColor: `${C.lime}66`, background: `${C.lime}11` }}>
-    <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: C.lime }} />
-    <span className="text-[11px] font-semibold tracking-wide" style={{ fontFamily: FONT_MONO, color: C.lime }}>
-      {slotsLeft}/{total} SLOTS LEFT
-    </span>
+const SlotsBadge = ({ slotsLeft=3, total=10 }) => (
+  <div className="inline-flex items-center gap-2 px-3 py-1 border" style={{ borderColor:`${C.lime}66`, background:`${C.lime}11` }}>
+    <span className="w-2 h-2 rounded-full animate-pulse" style={{ background:C.lime }}/>
+    <span style={{ fontFamily:FONT_MONO, fontSize:"11px", fontWeight:600, color:C.lime }}>{slotsLeft}/{total} SLOTS LEFT</span>
   </div>
 );
 
-// ---------- CTA Button ----------------------------------------------------
 const CTAButton = ({ label, outline, onClick }) => (
   <button onClick={onClick}
-    className={`inline-flex items-center gap-2 px-5 py-2.5 font-bold text-[12.5px] tracking-[0.1em] transition-colors ${outline ? 'border border-cream/30' : ''}`}
+    className="inline-flex items-center gap-2 px-5 py-2.5 font-bold text-[12.5px] tracking-[0.1em] transition-colors"
     style={{
       background: outline ? 'transparent' : C.cream,
       color: outline ? C.cream : C.ink,
-      borderColor: outline ? `${C.cream}55` : 'transparent',
+      border: outline ? `1px solid ${C.cream}55` : 'none',
       fontFamily: FONT_DISPLAY
     }}
     onMouseEnter={(e) => {
@@ -177,18 +130,18 @@ const CTAButton = ({ label, outline, onClick }) => (
       if (outline) e.currentTarget.style.borderColor = `${C.cream}55`;
       else e.currentTarget.style.background = C.cream;
     }}>
-    {label} <ArrowUpRight size={15} />
+    {label} <ArrowUpRight size={15}/>
   </button>
 );
 
-// ============ MODAL ======================================================
+/* ---------- MODAL (simple state toggle, no animation library) ---------- */
 const Modal = ({ isOpen, onClose }) => {
   const [step, setStep] = useState("form");
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
-    fullName: "", email: "", phone: "", creatorType: "",
-    inspirationLinks: "", goals: [], contentTimeline: "",
-    additionalNotes: "", addons: { domain: false, email: false, pages: false, ads: false }
+    fullName:"", email:"", phone:"", creatorType:"", inspirationLinks:"",
+    goals:[], contentTimeline:"", additionalNotes:"",
+    addons:{ domain:false, email:false, pages:false, ads:false }
   });
   const [errors, setErrors] = useState({});
 
@@ -196,65 +149,50 @@ const Modal = ({ isOpen, onClose }) => {
     setForm(s => ({ ...s, [field]: e.target.value }));
     if (errors[field]) setErrors(er => ({ ...er, [field]: undefined }));
   };
-
   const toggleGoal = (goal) => {
     setForm(s => ({
       ...s,
-      goals: s.goals.includes(goal) ? s.goals.filter(g => g !== goal) : [...s.goals, goal]
+      goals: s.goals.includes(goal) ? s.goals.filter(g=>g!==goal) : [...s.goals, goal]
     }));
   };
-
   const toggleAddon = (addon) => {
-    setForm(s => ({
-      ...s,
-      addons: { ...s.addons, [addon]: !s.addons[addon] }
-    }));
+    setForm(s => ({ ...s, addons: { ...s.addons, [addon]: !s.addons[addon] } }));
   };
 
   const validate = () => {
     const e = {};
-    if (!form.fullName.trim()) e.fullName = "Required";
-    if (!form.email.trim()) e.email = "Required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Enter a valid email";
-    if (!form.phone.trim()) e.phone = "Required";
-    if (!form.creatorType) e.creatorType = "Please select one";
-    if (!form.contentTimeline) e.contentTimeline = "Please select an option";
+    if(!form.fullName.trim()) e.fullName = "Required";
+    if(!form.email.trim()) e.email = "Required";
+    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Enter a valid email";
+    if(!form.phone.trim()) e.phone = "Required";
+    if(!form.creatorType) e.creatorType = "Please select one";
+    if(!form.contentTimeline) e.contentTimeline = "Please select an option";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
+    if(!validate()) return;
     setLoading(true);
-
     const payload = {
-      fullName: form.fullName,
-      email: form.email,
-      phone: form.phone,
-      creatorType: form.creatorType,
-      inspirationLinks: form.inspirationLinks,
-      goals: form.goals.join(", "),
-      contentTimeline: form.contentTimeline,
-      additionalNotes: form.additionalNotes,
-      addons: form.addons,
+      fullName: form.fullName, email: form.email, phone: form.phone,
+      creatorType: form.creatorType, inspirationLinks: form.inspirationLinks,
+      goals: form.goals.join(", "), contentTimeline: form.contentTimeline,
+      additionalNotes: form.additionalNotes, addons: form.addons,
       timestamp: new Date().toISOString()
     };
-
     try {
       await fetch(GAS_ENDPOINT, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        method:"POST", mode:"no-cors",
+        headers:{"Content-Type":"text/plain;charset=utf-8"},
         body: JSON.stringify(payload)
       });
-      if (window.dataLayer) {
-        window.dataLayer.push({ event: "website_inquiry", creatorType: form.creatorType });
-      }
+      if(window.dataLayer) window.dataLayer.push({ event:"website_inquiry", creatorType:form.creatorType });
       setStep("success");
-    } catch (err) {
+    } catch(err) {
       console.error(err);
-      setStep("success"); // fallback for demo
+      setStep("success"); // fallback
     } finally {
       setLoading(false);
     }
@@ -262,166 +200,107 @@ const Modal = ({ isOpen, onClose }) => {
 
   const closeAndReset = () => {
     setStep("form");
-    setForm({
-      fullName: "", email: "", phone: "", creatorType: "", inspirationLinks: "",
-      goals: [], contentTimeline: "", additionalNotes: "",
-      addons: { domain: false, email: false, pages: false, ads: false }
-    });
+    setForm({ fullName:"", email:"", phone:"", creatorType:"", inspirationLinks:"", goals:[], contentTimeline:"", additionalNotes:"", addons:{ domain:false, email:false, pages:false, ads:false } });
     setErrors({});
     onClose();
   };
 
-  if (!isOpen) return null;
+  if(!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay show" style={{ background: "rgba(8,9,31,0.85)" }} onClick={closeAndReset}>
-      <div className="relative max-w-lg w-full bg-white max-h-[90vh] overflow-y-auto modal-content" style={{ fontFamily: FONT_BODY }} onClick={(e) => e.stopPropagation()}>
-        <button onClick={closeAndReset} className="absolute top-3 right-3 p-1" aria-label="Close">
-          <X size={18} color={C.ink} />
-        </button>
-
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" style={{ background:"rgba(8,9,31,0.85)" }} onClick={closeAndReset}>
+      <div className="relative max-w-lg w-full bg-white max-h-[90vh] overflow-y-auto" style={{ fontFamily:FONT_BODY }} onClick={e => e.stopPropagation()}>
+        <button onClick={closeAndReset} className="absolute top-3 right-3 p-1"><X size={18} color={C.ink}/></button>
         {step === "form" ? (
           <div className="p-6">
-            <div className="mb-5">
-              <h3 className="text-xl font-bold" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>Get Your Website In 48 Hours</h3>
-              <p className="text-[13.5px] mt-1" style={{ color: "#555" }}>Tell us a little about yourself and we'll get back to you.</p>
-            </div>
-
+            <h3 className="text-xl font-bold mb-2" style={{ fontFamily:FONT_DISPLAY, color:C.ink }}>Get Your Website In 48 Hours</h3>
+            <p className="text-[13.5px] mb-4" style={{ color:"#555" }}>Tell us a little about yourself and we'll get back to you.</p>
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
               <div>
-                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Full Name *</label>
-                <input type="text" value={form.fullName} onChange={update("fullName")}
-                  className="w-full px-3 py-2 border text-[13.5px] text-black"
-                  style={{ borderColor: errors.fullName ? C.red : `${C.ink}33` }} />
-                {errors.fullName && <span className="text-xs" style={{ color: C.red }}>{errors.fullName}</span>}
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily:FONT_MONO, color:C.ink }}>Full Name *</label>
+                <input type="text" value={form.fullName} onChange={update("fullName")} className="w-full px-3 py-2 border text-[13.5px] text-black" style={{ borderColor: errors.fullName ? C.red : `${C.ink}33` }}/>
+                {errors.fullName && <span className="text-xs" style={{ color:C.red }}>{errors.fullName}</span>}
               </div>
-
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Email *</label>
-                  <input type="email" value={form.email} onChange={update("email")}
-                    className="w-full px-3 py-2 border text-[13.5px] text-black"
-                    style={{ borderColor: errors.email ? C.red : `${C.ink}33` }} />
-                  {errors.email && <span className="text-xs" style={{ color: C.red }}>{errors.email}</span>}
+                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily:FONT_MONO, color:C.ink }}>Email *</label>
+                  <input type="email" value={form.email} onChange={update("email")} className="w-full px-3 py-2 border text-[13.5px] text-black" style={{ borderColor: errors.email ? C.red : `${C.ink}33` }}/>
+                  {errors.email && <span className="text-xs" style={{ color:C.red }}>{errors.email}</span>}
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Phone / WhatsApp *</label>
-                  <input type="tel" value={form.phone} onChange={update("phone")}
-                    className="w-full px-3 py-2 border text-[13.5px] text-black"
-                    style={{ borderColor: errors.phone ? C.red : `${C.ink}33` }} />
-                  {errors.phone && <span className="text-xs" style={{ color: C.red }}>{errors.phone}</span>}
+                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily:FONT_MONO, color:C.ink }}>Phone / WhatsApp *</label>
+                  <input type="tel" value={form.phone} onChange={update("phone")} className="w-full px-3 py-2 border text-[13.5px] text-black" style={{ borderColor: errors.phone ? C.red : `${C.ink}33` }}/>
+                  {errors.phone && <span className="text-xs" style={{ color:C.red }}>{errors.phone}</span>}
                 </div>
               </div>
-
               <div>
-                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>What best describes you? *</label>
-                <select value={form.creatorType} onChange={update("creatorType")}
-                  className="w-full px-3 py-2 border text-[13.5px] text-black bg-white"
-                  style={{ borderColor: errors.creatorType ? C.red : `${C.ink}33` }}>
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily:FONT_MONO, color:C.ink }}>What best describes you? *</label>
+                <select value={form.creatorType} onChange={update("creatorType")} className="w-full px-3 py-2 border text-[13.5px] text-black bg-white" style={{ borderColor: errors.creatorType ? C.red : `${C.ink}33` }}>
                   <option value="">Select...</option>
-                  <option>Music Artist</option>
-                  <option>Content Creator</option>
-                  <option>Photographer</option>
-                  <option>Videographer</option>
-                  <option>DJ</option>
-                  <option>Event Host / MC</option>
-                  <option>Small Business</option>
-                  <option>Personal Brand</option>
-                  <option>Other</option>
+                  <option>Music Artist</option><option>Content Creator</option><option>Photographer</option><option>Videographer</option><option>DJ</option><option>Event Host / MC</option><option>Small Business</option><option>Personal Brand</option><option>Other</option>
                 </select>
-                {errors.creatorType && <span className="text-xs" style={{ color: C.red }}>{errors.creatorType}</span>}
+                {errors.creatorType && <span className="text-xs" style={{ color:C.red }}>{errors.creatorType}</span>}
               </div>
-
               <div>
-                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Do you have a website you like? (up to 3 links)</label>
-                <textarea value={form.inspirationLinks} onChange={update("inspirationLinks")} rows={2}
-                  className="w-full px-3 py-2 border text-[13.5px] text-black"
-                  style={{ borderColor: `${C.ink}33` }} placeholder="Paste links for inspiration" />
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily:FONT_MONO, color:C.ink }}>Do you have a website you like? (up to 3 links)</label>
+                <textarea value={form.inspirationLinks} onChange={update("inspirationLinks")} rows={2} className="w-full px-3 py-2 border text-[13.5px] text-black" style={{ borderColor:`${C.ink}33` }} placeholder="Paste links for inspiration"/>
               </div>
-
               <div>
-                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>What should your website help you do?</label>
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily:FONT_MONO, color:C.ink }}>What should your website help you do?</label>
                 <div className="grid grid-cols-2 gap-1">
                   {["Showcase my work","Get bookings","Receive inquiries","Collect leads","Build my personal brand","Other"].map(goal => (
-                    <label key={goal} className="flex items-center gap-2 text-[13px]" style={{ cursor: "pointer" }}>
-                      <input type="checkbox" checked={form.goals.includes(goal)} onChange={() => toggleGoal(goal)} /> {goal}
+                    <label key={goal} className="flex items-center gap-2 text-[13px]" style={{cursor:"pointer"}}>
+                      <input type="checkbox" checked={form.goals.includes(goal)} onChange={()=>toggleGoal(goal)}/> {goal}
                     </label>
                   ))}
                 </div>
               </div>
-
               <div>
-                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>How soon can you provide your content? *</label>
-                <select value={form.contentTimeline} onChange={update("contentTimeline")}
-                  className="w-full px-3 py-2 border text-[13.5px] text-black bg-white"
-                  style={{ borderColor: errors.contentTimeline ? C.red : `${C.ink}33` }}>
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily:FONT_MONO, color:C.ink }}>How soon can you provide your content? *</label>
+                <select value={form.contentTimeline} onChange={update("contentTimeline")} className="w-full px-3 py-2 border text-[13.5px] text-black bg-white" style={{ borderColor: errors.contentTimeline ? C.red : `${C.ink}33` }}>
                   <option value="">Select...</option>
-                  <option>Today</option>
-                  <option>Within 3 Days</option>
-                  <option>Within 1 Week</option>
-                  <option>Not Sure Yet</option>
+                  <option>Today</option><option>Within 3 Days</option><option>Within 1 Week</option><option>Not Sure Yet</option>
                 </select>
-                {errors.contentTimeline && <span className="text-xs" style={{ color: C.red }}>{errors.contentTimeline}</span>}
-                <p className="text-[11px] mt-1" style={{ color: "#666" }}>We'll need a simple document containing your bio, links, photos, social media accounts and anything else you'd like included.</p>
+                {errors.contentTimeline && <span className="text-xs" style={{ color:C.red }}>{errors.contentTimeline}</span>}
+                <p className="text-[11px] mt-1" style={{color:"#666"}}>We'll need a simple document containing your bio, links, photos, social media accounts and anything else you'd like included.</p>
               </div>
-
               <div>
-                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Anything else we should know?</label>
-                <textarea value={form.additionalNotes} onChange={update("additionalNotes")} rows={2}
-                  className="w-full px-3 py-2 border text-[13.5px] text-black"
-                  style={{ borderColor: `${C.ink}33` }} placeholder="Specific colours, design direction, special requests..." />
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily:FONT_MONO, color:C.ink }}>Anything else we should know?</label>
+                <textarea value={form.additionalNotes} onChange={update("additionalNotes")} rows={2} className="w-full px-3 py-2 border text-[13.5px] text-black" style={{ borderColor:`${C.ink}33` }} placeholder="Specific colours, design direction, special requests..."/>
               </div>
-
               <div>
-                <label className="block text-[11px] font-semibold mb-2" style={{ fontFamily: FONT_MONO, color: C.ink }}>Optional Add‑ons</label>
+                <label className="block text-[11px] font-semibold mb-2" style={{ fontFamily:FONT_MONO, color:C.ink }}>Optional Add‑ons</label>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <input type="checkbox" checked readOnly className="accent-black" />
+                    <input type="checkbox" checked readOnly className="accent-black"/>
                     <span className="text-[13.5px] font-medium">30K Website — ₦30,000</span>
-                    <span className="text-[11px]" style={{ color: "#888" }}>(required)</span>
+                    <span className="text-[11px]" style={{color:"#888"}}>(required)</span>
                   </div>
-                  {[
-                    { id: "domain", label: "Custom Domain Setup", price: "₦30,000/year" },
-                    { id: "email", label: "Professional Email Setup", price: "₦30,000/year" },
-                    { id: "pages", label: "Additional Website Pages", price: "from ₦30,000" },
-                    { id: "ads", label: "Future Advertising Support", price: "Let's talk" }
-                  ].map(opt => (
+                  {[{id:"domain",label:"Custom Domain Setup",price:"₦30,000/year"},{id:"email",label:"Professional Email Setup",price:"₦30,000/year"},{id:"pages",label:"Additional Website Pages",price:"from ₦30,000"},{id:"ads",label:"Future Advertising Support",price:"Let's talk"}].map(opt => (
                     <label key={opt.id} className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" checked={form.addons[opt.id]} onChange={() => toggleAddon(opt.id)} />
+                      <input type="checkbox" checked={form.addons[opt.id]} onChange={()=>toggleAddon(opt.id)}/>
                       <span className="text-[13.5px]">{opt.label} — {opt.price}</span>
                     </label>
                   ))}
                 </div>
               </div>
-
-              <p className="text-[12px] italic" style={{ color: "#666" }}>
-                One revision round included after delivery. Clear content = better result.
-              </p>
-
+              <p className="text-[12px] italic" style={{color:"#666"}}>One revision round included after delivery. Clear content = better result.</p>
               <button type="submit" disabled={loading}
                 className="w-full py-3 font-bold text-[13px] tracking-[0.1em] flex items-center justify-center gap-2 transition-colors"
-                style={{ background: C.ink, color: C.cream, fontFamily: FONT_DISPLAY, opacity: loading ? 0.6 : 1 }}>
-                {loading ? <><Loader size={14} className="animate-spin" /> SUBMITTING…</> : "GET MY WEBSITE"}
+                style={{ background:C.ink, color:C.cream, fontFamily:FONT_DISPLAY, opacity: loading ? 0.6 : 1 }}>
+                {loading ? <><Loader size={14}/> SUBMITTING…</> : "GET MY WEBSITE"}
               </button>
-              <p className="text-[11px] text-center" style={{ color: "#999" }}>
-                By submitting, you're letting us know you're interested. We'll review and get back to you with next steps.
-              </p>
+              <p className="text-[11px] text-center" style={{color:"#999"}}>By submitting, you're letting us know you're interested. We'll review and get back to you with next steps.</p>
             </form>
           </div>
         ) : (
           <div className="p-6 text-center">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: C.lime }}>
-              <CheckIcon size={24} color={C.ink} />
+            <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background:C.lime }}>
+              <CheckIcon size={24} color={C.ink}/>
             </div>
-            <h3 className="text-xl font-bold mb-2" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>Received! We'll be in touch.</h3>
-            <p className="text-[13.5px] leading-relaxed" style={{ color: "#444" }}>
-              Check your inbox for a confirmation email. If your slot is confirmed, we'll send next steps within 24 hours.
-            </p>
-            <button onClick={closeAndReset}
-              className="mt-5 px-5 py-2 font-bold text-xs tracking-wider"
-              style={{ background: C.ink, color: C.cream, fontFamily: FONT_DISPLAY }}>
-              CLOSE
-            </button>
+            <h3 className="text-xl font-bold mb-2" style={{ fontFamily:FONT_DISPLAY, color:C.ink }}>Received! We'll be in touch.</h3>
+            <p className="text-[13.5px] leading-relaxed" style={{ color:"#444" }}>Check your inbox for a confirmation email. If your slot is confirmed, we'll send next steps within 24 hours.</p>
+            <button onClick={closeAndReset} className="mt-5 px-5 py-2 font-bold text-xs tracking-wider" style={{ background:C.ink, color:C.cream, fontFamily:FONT_DISPLAY }}>CLOSE</button>
           </div>
         )}
       </div>
@@ -429,59 +308,36 @@ const Modal = ({ isOpen, onClose }) => {
   );
 };
 
-// ============ HERO ========================================================
+/* ---------- SECTIONS ---------- */
 const Hero = ({ openModal }) => {
-  const features = [
-    "Your Bio & Story",
-    "Photos & Videos",
-    "Music / Portfolio",
-    "All Your Social Links",
-    "Contact & Booking Forms",
-    "Fast, Mobile‑Ready, Done"
-  ];
-
+  const features = ["Your Bio & Story","Photos & Videos","Music / Portfolio","All Your Social Links","Contact & Booking Forms","Fast, Mobile‑Ready, Done"];
   return (
-    <section className="relative overflow-hidden" style={{ background: C.navy, color: C.cream }}>
-      <ArrowPattern opacity={0.05} />
-      <div aria-hidden className="absolute -top-40 -left-40 w-[450px] h-[450px] rounded-full pointer-events-none"
-        style={{ background: `radial-gradient(circle, ${C.periDeep}22 0%, transparent 70%)`, filter: "blur(40px)" }} />
-
+    <section className="relative overflow-hidden" style={{ background:C.navy, color:C.cream }}>
+      <ArrowPattern opacity={0.05}/>
+      <div aria-hidden="true" className="absolute -top-40 -left-40 w-[450px] h-[450px] rounded-full pointer-events-none" style={{ background:`radial-gradient(circle, ${C.periDeep}22 0%, transparent 70%)`, filter:"blur(40px)" }}/>
       <div className="relative max-w-7xl mx-auto px-5 md:px-8 pt-5 pb-14 md:pt-6 md:pb-20">
         <nav className="flex items-center justify-between mb-8 md:mb-12">
-          <Logo />
-          <SlotsBadge />
+          <Logo/><SlotsBadge/>
         </nav>
-
         <div className="text-center">
-          <div>
-            <SectionLabel color={C.lime}>WHAT YOU'RE GETTING</SectionLabel>
+          <SectionLabel color={C.lime}>WHAT YOU'RE GETTING</SectionLabel>
+          <div className="font-bold leading-[0.9] tracking-[-0.025em]" style={{ fontFamily:FONT_DISPLAY, fontSize:"clamp(2.75rem, 8vw, 5.5rem)" }}>
+            The website you've been<br/>putting off. <span style={{ color:C.lime }}>Done.</span>
           </div>
-
-          <div className="font-bold leading-[0.9] tracking-[-0.025em]"
-            style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(2.75rem, 8vw, 5.5rem)" }}>
-            The website you've been<br />putting off. <span style={{ color: C.lime }}>Done.</span>
-          </div>
-
-          <p className="mt-4 md:mt-5 text-base md:text-lg max-w-xl mx-auto"
-            style={{ color: C.peri, fontFamily: FONT_BODY }}>
+          <p className="mt-4 md:mt-5 text-base md:text-lg max-w-xl mx-auto" style={{ color:C.peri, fontFamily:FONT_BODY }}>
             Built in 48 hours for ₦30,000. Send your content, get your site.
           </p>
-
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {features.map((feat) => (
-              <div key={feat} className="flex items-center gap-3 px-5 py-4 text-left"
-                style={{ background: C.navySoft, border: `1px solid ${C.peri}22` }}>
-                <CheckIcon size={18} color={C.lime} />
-                <span className="text-base font-semibold" style={{ fontFamily: FONT_DISPLAY }}>{feat}</span>
+            {features.map(feat => (
+              <div key={feat} className="flex items-center gap-3 px-5 py-4 text-left" style={{ background:C.navySoft, border:`1px solid ${C.peri}22` }}>
+                <CheckIcon size={18} color={C.lime}/>
+                <span className="text-base font-semibold" style={{ fontFamily:FONT_DISPLAY }}>{feat}</span>
               </div>
             ))}
           </div>
-
           <div className="mt-8 flex flex-col items-center gap-4">
-            <CTAButton label="GET MY WEBSITE" onClick={openModal} />
-            <div className="flex justify-center">
-              <SlotsBadge />
-            </div>
+            <CTAButton label="GET MY WEBSITE" onClick={openModal}/>
+            <SlotsBadge/>
           </div>
         </div>
       </div>
@@ -489,31 +345,24 @@ const Hero = ({ openModal }) => {
   );
 };
 
-// ============ WHO IT'S FOR ================================================
-const AUDIENCE = [
-  "Artists", "Musicians", "DJs", "Photographers", "Videographers",
-  "Creative Directors", "Content Creators", "Event Hosts", "MCs",
-  "Influencers", "Entrepreneurs", "Small Business Owners"
-];
+const AUDIENCE = ["Artists","Musicians","DJs","Photographers","Videographers","Creative Directors","Content Creators","Event Hosts","MCs","Influencers","Entrepreneurs","Small Business Owners"];
 
 const WhoItsFor = () => (
-  <section className="py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
+  <section className="py-14 md:py-20" style={{ background:C.cream, color:C.ink }}>
     <div className="max-w-7xl mx-auto px-5 md:px-8">
       <div className="max-w-3xl mb-8">
         <SectionLabel color={C.navy}>WHO IT'S FOR</SectionLabel>
-        <h2 className="text-3xl md:text-5xl font-bold leading-[0.95]" style={{ fontFamily: FONT_DISPLAY }}>
-          Built for the creators<br />
-          building <span style={{ color: C.red }}>their future</span>.
+        <h2 className="text-3xl md:text-5xl font-bold leading-[0.95]" style={{ fontFamily:FONT_DISPLAY }}>
+          Built for the creators<br/>building <span style={{ color:C.red }}>their future</span>.
         </h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-        {AUDIENCE.map((a) => (
-          <div key={a} className="group flex items-center justify-between px-4 py-3 cursor-default transition-colors"
-            style={{ background: "white", border: `1px solid ${C.ink}22` }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = C.ink; e.currentTarget.style.color = C.cream; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "white"; e.currentTarget.style.color = C.ink; }}>
-            <span className="text-base font-bold" style={{ fontFamily: FONT_DISPLAY }}>{a}</span>
-            <ArrowUpRight size={16} />
+        {AUDIENCE.map(a => (
+          <div key={a} className="group flex items-center justify-between px-4 py-3 cursor-default transition-colors" style={{ background:"white", border:`1px solid ${C.ink}22` }}
+            onMouseEnter={(e)=>{ e.currentTarget.style.background=C.ink; e.currentTarget.style.color=C.cream; }}
+            onMouseLeave={(e)=>{ e.currentTarget.style.background="white"; e.currentTarget.style.color=C.ink; }}>
+            <span className="text-base font-bold" style={{ fontFamily:FONT_DISPLAY }}>{a}</span>
+            <ArrowUpRight size={16}/>
           </div>
         ))}
       </div>
@@ -521,26 +370,19 @@ const WhoItsFor = () => (
   </section>
 );
 
-// ============ HOW IT WORKS ================================================
 const HowItWorks = () => (
-  <section className="py-14 md:py-20" style={{ background: C.navy, color: C.cream }}>
+  <section className="py-14 md:py-20" style={{ background:C.navy, color:C.cream }}>
     <div className="max-w-5xl mx-auto px-5 md:px-8">
       <div className="text-center mb-10">
         <SectionLabel color={C.peri}>HOW IT WORKS</SectionLabel>
-        <h2 className="text-3xl md:text-5xl font-bold leading-[0.95]" style={{ fontFamily: FONT_DISPLAY }}>
-          Three steps. That's it.
-        </h2>
+        <h2 className="text-3xl md:text-5xl font-bold leading-[0.95]" style={{ fontFamily:FONT_DISPLAY }}>Three steps. That's it.</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[
-          { step: "01", title: "Reach Out", desc: "Fill the form with your content brief — bio, photos, videos, links, brand preferences." },
-          { step: "02", title: "We Build", desc: "We design and build your one‑page site with best practices and tracking installed." },
-          { step: "03", title: "Delivered", desc: "Within 48 hours your site goes live. You get the link and everything you need." },
-        ].map((s) => (
-          <div key={s.step} className="text-center p-6" style={{ background: C.navySoft, border: `1px solid ${C.peri}22` }}>
-            <div className="text-4xl md:text-5xl font-bold mb-2" style={{ fontFamily: FONT_DISPLAY, color: C.lime }}>{s.step}</div>
-            <div className="text-lg font-bold mb-1" style={{ fontFamily: FONT_DISPLAY }}>{s.title}</div>
-            <p className="text-[13.5px] leading-relaxed" style={{ fontFamily: FONT_BODY, color: C.peri }}>{s.desc}</p>
+        {[{step:"01",title:"Reach Out",desc:"Fill the form with your content brief — bio, photos, videos, links, brand preferences."},{step:"02",title:"We Build",desc:"We design and build your one‑page site with best practices and tracking installed."},{step:"03",title:"Delivered",desc:"Within 48 hours your site goes live. You get the link and everything you need."}].map(s => (
+          <div key={s.step} className="text-center p-6" style={{ background:C.navySoft, border:`1px solid ${C.peri}22` }}>
+            <div className="text-4xl md:text-5xl font-bold mb-2" style={{ fontFamily:FONT_DISPLAY, color:C.lime }}>{s.step}</div>
+            <div className="text-lg font-bold mb-1" style={{ fontFamily:FONT_DISPLAY }}>{s.title}</div>
+            <p className="text-[13.5px] leading-relaxed" style={{ fontFamily:FONT_BODY, color:C.peri }}>{s.desc}</p>
           </div>
         ))}
       </div>
@@ -548,25 +390,17 @@ const HowItWorks = () => (
   </section>
 );
 
-// ============ DIFFERENTIATOR ==============================================
 const Differentiator = () => (
-  <section className="py-10 md:py-14" style={{ background: C.red, color: C.cream }}>
-    <div aria-hidden className="absolute inset-0 opacity-15"
-      style={{ backgroundImage: `repeating-linear-gradient(90deg, ${C.cream}22 0 1px, transparent 1px 14px)` }} />
+  <section className="py-10 md:py-14" style={{ background:C.red, color:C.cream }}>
+    <div aria-hidden="true" className="absolute inset-0 opacity-15" style={{ backgroundImage:`repeating-linear-gradient(90deg, ${C.cream}22 0 1px, transparent 1px 14px)` }}/>
     <div className="relative max-w-7xl mx-auto px-5 md:px-8">
       <SectionLabel color={C.cream}>BEYOND THE LINK</SectionLabel>
-      <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily: FONT_DISPLAY }}>
-        Most developers give you just a link.<br />We're seasoned technical marketers.
-      </h2>
+      <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily:FONT_DISPLAY }}>Most developers give you just a link.<br/>We're seasoned technical marketers.</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[
-          { l: "BEST PRACTICES", v: "Performance, accessibility, and SEO fundamentals baked in from the start — not an afterthought." },
-          { l: "TRACKING & GTM", v: "A Google Tag Manager container installed, ready for Meta, TikTok, Snapchat, and any future pixels you need." },
-          { l: "INQUIRIES", v: "A simple contact form that sends messages straight to your email. No copy‑pasting addresses." },
-        ].map((d) => (
-          <div key={d.l} className="border-l pl-4" style={{ borderColor: `${C.cream}66` }}>
-            <div className="text-[9px] tracking-[0.25em] mb-2 opacity-80" style={{ fontFamily: FONT_MONO }}>{d.l}</div>
-            <p className="text-[14px] leading-relaxed" style={{ fontFamily: FONT_BODY }}>{d.v}</p>
+        {[{l:"BEST PRACTICES",v:"Performance, accessibility, and SEO fundamentals baked in from the start — not an afterthought."},{l:"TRACKING & GTM",v:"A Google Tag Manager container installed, ready for Meta, TikTok, Snapchat, and any future pixels you need."},{l:"INQUIRIES",v:"A simple contact form that sends messages straight to your email. No copy‑pasting addresses."}].map(d => (
+          <div key={d.l} className="border-l pl-4" style={{ borderColor:`${C.cream}66` }}>
+            <div className="text-[9px] tracking-[0.25em] mb-2 opacity-80" style={{ fontFamily:FONT_MONO }}>{d.l}</div>
+            <p className="text-[14px] leading-relaxed" style={{ fontFamily:FONT_BODY }}>{d.v}</p>
           </div>
         ))}
       </div>
@@ -574,30 +408,17 @@ const Differentiator = () => (
   </section>
 );
 
-// ============ ADD-ONS =====================================================
 const AddOns = () => (
-  <section className="py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
+  <section className="py-14 md:py-20" style={{ background:C.cream, color:C.ink }}>
     <div className="max-w-5xl mx-auto px-5 md:px-8">
       <SectionLabel color={C.navy}>ADD‑ONS FOR A MORE PROFESSIONAL TOUCH</SectionLabel>
-      <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily: FONT_DISPLAY }}>
-        Level it up.
-      </h2>
+      <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily:FONT_DISPLAY }}>Level it up.</h2>
       <div className="grid md:grid-cols-3 gap-6">
-        {[
-          { label: "Custom Domain", price: "₦30,000", period: "one‑time/year", desc: "yourname.com — we'll purchase and connect it." },
-          { label: "Professional Email", price: "₦30,000", period: "for one year", desc: "hello@yourname.com hosted on Zoho. Clean and professional." },
-          { label: "Paid Ads", price: "Let's talk", period: "", desc: "Where we thrive. Strategy, execution, and measurement handled for you." },
-        ].map((item) => (
-          <div key={item.label} className="p-5 flex flex-col" style={{ background: "white", border: `1px solid ${C.ink}22` }}>
-            <div className="flex items-center gap-2 mb-2">
-              <CheckIcon size={16} color={C.ink} />
-              <span className="text-base font-bold" style={{ fontFamily: FONT_DISPLAY }}>{item.label}</span>
-            </div>
-            <div className="flex items-baseline gap-1 mb-2">
-              <span className="text-2xl font-bold" style={{ fontFamily: FONT_DISPLAY }}>{item.price}</span>
-              {item.period && <span className="text-[11px]" style={{ fontFamily: FONT_MONO, color: "#666" }}>{item.period}</span>}
-            </div>
-            <p className="text-[13.5px] leading-relaxed mt-auto" style={{ fontFamily: FONT_BODY, color: "#444" }}>{item.desc}</p>
+        {[{label:"Custom Domain",price:"₦30,000",period:"one‑time/year",desc:"yourname.com — we'll purchase and connect it."},{label:"Professional Email",price:"₦30,000",period:"for one year",desc:"hello@yourname.com hosted on Zoho. Clean and professional."},{label:"Paid Ads",price:"Let's talk",period:"",desc:"Where we thrive. Strategy, execution, and measurement handled for you."}].map(item => (
+          <div key={item.label} className="p-5 flex flex-col" style={{ background:"white", border:`1px solid ${C.ink}22` }}>
+            <div className="flex items-center gap-2 mb-2"><CheckIcon size={16} color={C.ink}/><span className="text-base font-bold" style={{ fontFamily:FONT_DISPLAY }}>{item.label}</span></div>
+            <div className="flex items-baseline gap-1 mb-2"><span className="text-2xl font-bold" style={{ fontFamily:FONT_DISPLAY }}>{item.price}</span>{item.period && <span className="text-[11px]" style={{ fontFamily:FONT_MONO, color:"#666" }}>{item.period}</span>}</div>
+            <p className="text-[13.5px] leading-relaxed mt-auto" style={{ fontFamily:FONT_BODY, color:"#444" }}>{item.desc}</p>
           </div>
         ))}
       </div>
@@ -605,126 +426,92 @@ const AddOns = () => (
   </section>
 );
 
-// ============ PRICING & CONDITIONS ========================================
 const Pricing = ({ openModal }) => (
-  <section className="py-14 md:py-20" style={{ background: C.navy, color: C.cream }}>
+  <section className="py-14 md:py-20" style={{ background:C.navy, color:C.cream }}>
     <div className="max-w-7xl mx-auto px-5 md:px-8">
       <div className="max-w-4xl mx-auto text-center mb-10">
         <SectionLabel color={C.lime}>PRICING & CONDITIONS</SectionLabel>
-        <h2 className="text-3xl md:text-5xl font-bold leading-[0.95] mb-4" style={{ fontFamily: FONT_DISPLAY }}>
-          ₦30,000. One‑time.<br />
-          <span style={{ color: C.lime }}>One‑page website.</span>
+        <h2 className="text-3xl md:text-5xl font-bold leading-[0.95] mb-4" style={{ fontFamily:FONT_DISPLAY }}>
+          ₦30,000. One‑time.<br/><span style={{ color:C.lime }}>One‑page website.</span>
         </h2>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-8">
-        <div className="p-6" style={{ background: C.navySoft, border: `1px solid ${C.peri}22` }}>
-          <div className="text-[10px] tracking-[0.2em] mb-3 font-semibold" style={{ fontFamily: FONT_MONO, color: C.peri }}>YOU GET</div>
+        <div className="p-6" style={{ background:C.navySoft, border:`1px solid ${C.peri}22` }}>
+          <div className="text-[10px] tracking-[0.2em] mb-3 font-semibold" style={{ fontFamily:FONT_MONO, color:C.peri }}>YOU GET</div>
           <ul className="space-y-2">
-            {["One‑page branded website","48‑hour delivery","Tracking & GTM container","Best practices applied","Contact/inquiry form"].map((item) => (
-              <li key={item} className="flex items-start gap-2 text-[14px]" style={{ fontFamily: FONT_BODY, color: C.peri }}>
-                <CheckIcon size={14} color={C.lime} /> {item}
-              </li>
+            {["One‑page branded website","48‑hour delivery","Tracking & GTM container","Best practices applied","Contact/inquiry form"].map(item => (
+              <li key={item} className="flex items-start gap-2 text-[14px]" style={{ fontFamily:FONT_BODY, color:C.peri }}><CheckIcon size={14} color={C.lime}/> {item}</li>
             ))}
           </ul>
         </div>
-        <div className="p-6" style={{ background: C.navySoft, border: `1px solid ${C.lime}44` }}>
-          <div className="text-[10px] tracking-[0.2em] mb-3 font-semibold" style={{ fontFamily: FONT_MONO, color: C.lime }}>CONDITIONS</div>
+        <div className="p-6" style={{ background:C.navySoft, border:`1px solid ${C.lime}44` }}>
+          <div className="text-[10px] tracking-[0.2em] mb-3 font-semibold" style={{ fontFamily:FONT_MONO, color:C.lime }}>CONDITIONS</div>
           <ul className="space-y-2">
-            {[
-              "Detailed content brief — the more detail, the better the result.",
-              "Provide a reference website or style you like.",
-              "No endless revisions. A 30k website. Clear brief = nailed it.",
-              "7 days of minor support after delivery. New requests separate.",
-            ].map((item) => (
-              <li key={item} className="flex items-start gap-2 text-[14px]" style={{ fontFamily: FONT_BODY, color: C.peri }}>
-                <span style={{ color: C.lime }}>•</span> {item}
-              </li>
+            {["Detailed content brief — the more detail, the better the result.","Provide a reference website or style you like.","No endless revisions. A 30k website. Clear brief = nailed it.","7 days of minor support after delivery. New requests separate."].map(item => (
+              <li key={item} className="flex items-start gap-2 text-[14px]" style={{ fontFamily:FONT_BODY, color:C.peri }}><span style={{ color:C.lime }}>•</span> {item}</li>
             ))}
           </ul>
         </div>
       </div>
-
-      <div className="text-center mb-6">
-        <SlotsBadge />
-      </div>
-      <div className="text-center">
-        <CTAButton label="CLAIM MY SLOT" onClick={openModal} />
-      </div>
+      <div className="text-center mb-6"><SlotsBadge/></div>
+      <div className="text-center"><CTAButton label="CLAIM MY SLOT" onClick={openModal}/></div>
     </div>
   </section>
 );
 
-// ============ EXAMPLE WEBSITE =============================================
 const Example = () => (
-  <section className="py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
+  <section className="py-14 md:py-20" style={{ background:C.cream, color:C.ink }}>
     <div className="max-w-5xl mx-auto px-5 md:px-8 text-center">
       <SectionLabel color={C.navy}>SEE WHAT WE'VE DONE</SectionLabel>
-      <h2 className="text-3xl md:text-5xl font-bold leading-[0.95] mb-4" style={{ fontFamily: FONT_DISPLAY }}>
-        A real example.
-      </h2>
-      <p className="text-base mb-6 max-w-xl mx-auto" style={{ fontFamily: FONT_BODY, color: "#444" }}>
-        Clean, fast, and ready to represent its owner — built with the same principles.
-      </p>
-      <a href="https://afrocue.xyz" target="_blank" rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 px-6 py-3 font-bold text-[13px] tracking-[0.1em] transition-colors"
-        style={{ background: C.ink, color: C.cream, fontFamily: FONT_DISPLAY }}
-        onMouseEnter={(e) => e.currentTarget.style.background = C.navy}
-        onMouseLeave={(e) => e.currentTarget.style.background = C.ink}>
-        VISIT AFROCUE.XYZ <ExternalLink size={14} />
+      <h2 className="text-3xl md:text-5xl font-bold leading-[0.95] mb-4" style={{ fontFamily:FONT_DISPLAY }}>A real example.</h2>
+      <p className="text-base mb-6 max-w-xl mx-auto" style={{ fontFamily:FONT_BODY, color:"#444" }}>Clean, fast, and ready to represent its owner — built with the same principles.</p>
+      <a href="https://afrocue.xyz" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 font-bold text-[13px] tracking-[0.1em] transition-colors" style={{ background:C.ink, color:C.cream, fontFamily:FONT_DISPLAY }} onMouseEnter={(e)=>e.currentTarget.style.background=C.navy} onMouseLeave={(e)=>e.currentTarget.style.background=C.ink}>
+        VISIT AFROCUE.XYZ <ExternalLink size={14}/>
       </a>
-      <p className="mt-4 text-[11px]" style={{ fontFamily: FONT_MONO, color: "#666" }}>afrocue.xyz</p>
+      <p className="mt-4 text-[11px]" style={{ fontFamily:FONT_MONO, color:"#666" }}>afrocue.xyz</p>
     </div>
   </section>
 );
 
-// ============ WHAT YOU'LL NEED TO SEND US =================================
 const WhatYouNeed = () => (
-  <section className="py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
+  <section className="py-14 md:py-20" style={{ background:C.cream, color:C.ink }}>
     <div className="max-w-3xl mx-auto px-5 md:px-8">
       <SectionLabel color={C.navy}>WHAT YOU'LL NEED TO SEND US</SectionLabel>
-      <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily: FONT_DISPLAY }}>
-        Just a few things to get started.
-      </h2>
+      <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily:FONT_DISPLAY }}>Just a few things to get started.</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {["A short bio","Photos","Social links","Contact details","Any design preferences"].map(item => (
-          <div key={item} className="flex items-center gap-3 px-4 py-3" style={{ background: "white", border: `1px solid ${C.ink}22` }}>
-            <CheckIcon size={16} color={C.ink} />
-            <span className="text-[15px] font-medium" style={{ fontFamily: FONT_BODY }}>{item}</span>
+          <div key={item} className="flex items-center gap-3 px-4 py-3" style={{ background:"white", border:`1px solid ${C.ink}22` }}>
+            <CheckIcon size={16} color={C.ink}/><span className="text-[15px] font-medium" style={{ fontFamily:FONT_BODY }}>{item}</span>
           </div>
         ))}
       </div>
-      <p className="mt-6 text-[13px] leading-relaxed" style={{ color: "#555", fontFamily: FONT_BODY }}>
-        The more detail you send, the faster we can build a site that feels like you.
-      </p>
+      <p className="mt-6 text-[13px] leading-relaxed" style={{ color:"#555", fontFamily:FONT_BODY }}>The more detail you send, the faster we can build a site that feels like you.</p>
     </div>
   </section>
 );
 
-// ============ FAQ ==========================================================
 const FAQS = [
-  { q: "What do I need to provide?", a: "A detailed content brief: bio, photos, videos, music links, social handles, brand preferences. Clear brief = great result." },
-  { q: "Do I need a domain?", a: "No, your site works with a free link. For a custom domain (e.g. yourname.com), we can purchase and connect it for ₦30,000/year." },
-  { q: "What if I want changes?", a: "Minor tweaks based on your original brief are included. Remember — this is a 30k website. A strong brief avoids endless revisions." },
-  { q: "Can I add pages later?", a: "Yes. Additional pages or custom features can be scoped separately after launch." },
-  { q: "How do I pay?", a: "After you fill the form and we review your request, we'll send a payment link. Your slot is confirmed once payment is received." },
-  { q: "What happens after 48 hours?", a: "Your site is live. Minor support for 7 days. After that, new requests are treated as separate projects." },
+  {q:"What do I need to provide?",a:"A detailed content brief: bio, photos, videos, music links, social handles, brand preferences. Clear brief = great result."},
+  {q:"Do I need a domain?",a:"No, your site works with a free link. For a custom domain (e.g. yourname.com), we can purchase and connect it for ₦30,000/year."},
+  {q:"What if I want changes?",a:"Minor tweaks based on your original brief are included. Remember — this is a 30k website. A strong brief avoids endless revisions."},
+  {q:"Can I add pages later?",a:"Yes. Additional pages or custom features can be scoped separately after launch."},
+  {q:"How do I pay?",a:"After you fill the form and we review your request, we'll send a payment link. Your slot is confirmed once payment is received."},
+  {q:"What happens after 48 hours?",a:"Your site is live. Minor support for 7 days. After that, new requests are treated as separate projects."}
 ];
 
-const FAQItem = ({ q, a }) => {
+const FAQItem = ({q,a}) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border-b" style={{ borderColor: `${C.ink}1a` }}>
-      <button onClick={() => setIsOpen(!isOpen)} className="w-full flex items-center justify-between gap-4 py-4 text-left" aria-expanded={isOpen}>
-        <span className="text-base font-bold leading-tight" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>{q}</span>
-        <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform ${isOpen ? 'rotate-45' : ''}`}
-          style={{ background: isOpen ? C.ink : "transparent", border: `1px solid ${C.ink}` }}>
-          <span style={{ color: isOpen ? C.cream : C.ink, fontSize: 16, lineHeight: 1 }}>+</span>
+    <div className="border-b" style={{ borderColor:`${C.ink}1a` }}>
+      <button onClick={()=>setIsOpen(!isOpen)} className="w-full flex items-center justify-between gap-4 py-4 text-left" aria-expanded={isOpen}>
+        <span className="text-base font-bold leading-tight" style={{ fontFamily:FONT_DISPLAY, color:C.ink }}>{q}</span>
+        <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform ${isOpen?'rotate-45':''}`} style={{ background:isOpen?C.ink:'transparent', border:`1px solid ${C.ink}` }}>
+          <span style={{ color:isOpen?C.cream:C.ink, fontSize:16, lineHeight:1 }}>+</span>
         </span>
       </button>
       {isOpen && (
-        <div className="overflow-hidden">
-          <p className="pb-4 pr-10 text-[13.5px] leading-relaxed" style={{ color: "#444", fontFamily: FONT_BODY }}>{a}</p>
+        <div className="overflow-hidden pb-4 pr-10">
+          <p className="text-[13.5px] leading-relaxed" style={{ color:"#444", fontFamily:FONT_BODY }}>{a}</p>
         </div>
       )}
     </div>
@@ -732,66 +519,44 @@ const FAQItem = ({ q, a }) => {
 };
 
 const FAQ = () => (
-  <section id="faq" className="py-14 md:py-20" style={{ background: C.cream }}>
+  <section id="faq" className="py-14 md:py-20" style={{ background:C.cream }}>
     <div className="max-w-4xl mx-auto px-5 md:px-8">
       <SectionLabel color={C.navy}>FAQ</SectionLabel>
-      <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>
-        Questions, answered.
-      </h2>
-      {FAQS.map((f) => (
-        <FAQItem key={f.q} q={f.q} a={f.a} />
-      ))}
+      <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily:FONT_DISPLAY, color:C.ink }}>Questions, answered.</h2>
+      {FAQS.map(f => <FAQItem key={f.q} q={f.q} a={f.a}/>)}
     </div>
   </section>
 );
 
-// ============ FINAL CTA ===================================================
 const FinalCTA = ({ openModal }) => (
-  <section className="py-14 md:py-20 overflow-hidden" style={{ background: C.ink, color: C.cream }}>
-    <ArrowPattern opacity={0.05} />
+  <section className="py-14 md:py-20 overflow-hidden" style={{ background:C.ink, color:C.cream }}>
+    <ArrowPattern opacity={0.05}/>
     <div className="relative max-w-3xl mx-auto px-5 md:px-8 text-center">
-      <h2 className="font-bold leading-[0.92] tracking-[-0.02em]"
-        style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(2.25rem, 6vw, 4.5rem)" }}>
-        You've already built your audience.<br />
-        Now build a place that<br />
-        <span style={{ color: C.lime }}>belongs to you.</span>
+      <h2 className="font-bold leading-[0.92] tracking-[-0.02em]" style={{ fontFamily:FONT_DISPLAY, fontSize:"clamp(2.25rem, 6vw, 4.5rem)" }}>
+        You've already built your audience.<br/>Now build a place that<br/><span style={{ color:C.lime }}>belongs to you.</span>
       </h2>
-      <p className="mt-4 text-base max-w-xl mx-auto" style={{ color: C.peri, fontFamily: FONT_BODY }}>
-        30k Websites. 48 hours. ₦30,000.
-      </p>
-      <div className="mt-6 flex justify-center">
-        <CTAButton label="OWN MY DIGITAL HOME" onClick={openModal} />
-      </div>
-      <div className="mt-4 flex justify-center">
-        <SlotsBadge />
-      </div>
+      <p className="mt-4 text-base max-w-xl mx-auto" style={{ color:C.peri, fontFamily:FONT_BODY }}>30k Websites. 48 hours. ₦30,000.</p>
+      <div className="mt-6 flex justify-center"><CTAButton label="OWN MY DIGITAL HOME" onClick={openModal}/></div>
+      <div className="mt-4 flex justify-center"><SlotsBadge/></div>
     </div>
   </section>
 );
 
-// ============ FOOTER ======================================================
 const Footer = () => (
-  <footer className="py-10" style={{ background: C.navy, color: C.cream }}>
+  <footer className="py-10" style={{ background:C.navy, color:C.cream }}>
     <div className="max-w-7xl mx-auto px-5 md:px-8">
       <div className="grid md:grid-cols-2 gap-8 mb-8">
         <div>
-          <Logo />
-          <p className="mt-3 text-[13px] max-w-xs" style={{ color: C.peri, fontFamily: FONT_BODY }}>
-            Websites for creators. Built by marketers.
-          </p>
+          <Logo/>
+          <p className="mt-3 text-[13px] max-w-xs" style={{ color:C.peri, fontFamily:FONT_BODY }}>Websites for creators. Built by marketers.</p>
         </div>
         <div>
-          <div className="text-[10px] tracking-[0.2em] mb-2 font-semibold" style={{ fontFamily: FONT_MONO, color: C.peri }}>CONTACT</div>
-          <a href="mailto:mavedomedia@gmail.com" className="text-sm hover:underline" style={{ fontFamily: FONT_BODY, color: C.cream }}>
-            mavedomedia@gmail.com
-          </a>
-          <div className="mt-3 text-[11px]" style={{ fontFamily: FONT_MONO, color: C.peri }}>
-            Reach out to claim your slot or ask anything.
-          </div>
+          <div className="text-[10px] tracking-[0.2em] mb-2 font-semibold" style={{ fontFamily:FONT_MONO, color:C.peri }}>CONTACT</div>
+          <a href="mailto:mavedomedia@gmail.com" className="text-sm hover:underline" style={{ fontFamily:FONT_BODY, color:C.cream }}>mavedomedia@gmail.com</a>
+          <div className="mt-3 text-[11px]" style={{ fontFamily:FONT_MONO, color:C.peri }}>Reach out to claim your slot or ask anything.</div>
         </div>
       </div>
-      <div className="pt-4 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-[11px]"
-        style={{ borderColor: `${C.peri}22`, color: C.peri, fontFamily: FONT_MONO }}>
+      <div className="pt-4 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-[11px]" style={{ borderColor:`${C.peri}22`, color:C.peri, fontFamily:FONT_MONO }}>
         <div>© {new Date().getFullYear()} 30K WEBSITES. ALL RIGHTS RESERVED.</div>
         <div className="tracking-[0.2em]">STOP BUILDING EVERYTHING ON SOCIAL MEDIA</div>
       </div>
@@ -799,32 +564,29 @@ const Footer = () => (
   </footer>
 );
 
-// ============ APP ==========================================================
+/* ---------- APP ---------- */
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => { window.dataLayer = window.dataLayer || []; }, []);
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
-
   return (
-    <div style={{ background: C.navy, color: C.cream, fontFamily: FONT_BODY }}>
-      <Hero openModal={openModal} />
-      <WhoItsFor />
-      <HowItWorks />
-      <Differentiator />
-      <AddOns />
-      <Pricing openModal={openModal} />
-      <Example />
-      <WhatYouNeed />
-      <FAQ />
-      <FinalCTA openModal={openModal} />
-      <Footer />
-      {modalOpen && <Modal isOpen={modalOpen} onClose={closeModal} />}
+    <div style={{ background:C.navy, color:C.cream, fontFamily:FONT_BODY }}>
+      <Hero openModal={()=>setModalOpen(true)}/>
+      <WhoItsFor/>
+      <HowItWorks/>
+      <Differentiator/>
+      <AddOns/>
+      <Pricing openModal={()=>setModalOpen(true)}/>
+      <Example/>
+      <WhatYouNeed/>
+      <FAQ/>
+      <FinalCTA openModal={()=>setModalOpen(true)}/>
+      <Footer/>
+      {modalOpen && <Modal isOpen={modalOpen} onClose={()=>setModalOpen(false)}/>}
     </div>
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
 </body>
 </html>
