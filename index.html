@@ -23,9 +23,6 @@
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
-<!-- Framer Motion (UMD) -->
-<script crossorigin src="https://unpkg.com/framer-motion@11.0.8/dist/framer-motion.js"></script>
-
 <!-- Babel -->
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
@@ -44,6 +41,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #root:empty::before {
     content: ""; display: block; position: fixed; inset: 0; background: #0A1547;
   }
+  /* Modal transitions */
+  .modal-overlay {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .modal-overlay.show {
+    opacity: 1;
+  }
+  .modal-content {
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.2s ease;
+  }
+  .modal-overlay.show .modal-content {
+    transform: scale(1) translateY(0);
+  }
+  /* Simple fade-in for sections */
+  .section-fade {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .section-fade.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 </style>
 </head>
 <body>
@@ -57,10 +79,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, Fragment } = React;
-const { motion, AnimatePresence } = window.Motion || window.FramerMotion || window.framerMotion || window.framer_motion || window["framer-motion"] || {};
 
 /* =========================================================================
-   30k WEBSITES – The website you've been putting off. Done.
+   30k WEBSITES – No Framer Motion, just works.
    ========================================================================= */
 
 const C = {
@@ -78,7 +99,21 @@ const FONT_DISPLAY = "'Bricolage Grotesque', system-ui, sans-serif";
 const FONT_BODY = "'Geist', system-ui, sans-serif";
 const FONT_MONO = "'JetBrains Mono', ui-monospace, monospace";
 
-const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwPy4D8X5NJHRjR2kthlDPlke6ptb7zxzJqvm-p3byYaQc9x-K9UDB7BsNgRRA3s8RUsQ/exec"; // Replace with your actual web app URL
+// ⚠️ REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbyfmKByZPm0NDAUn4FyjAgFWCi0w0U41WYvyMmvXJTcp7qwK9T7pML-L__n8WIMxOUc/exec";
+
+// ---------- Icons ---------------------------------------------------------
+const Icon = ({ children, size = 16, color = "currentColor", stroke = 2 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24"
+    fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round">
+    {children}
+  </svg>
+);
+const ArrowUpRight = (p) => <Icon {...p}><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></Icon>;
+const CheckIcon = (p) => <Icon {...p} stroke={3}><polyline points="20 6 9 17 4 12"/></Icon>;
+const ExternalLink = (p) => <Icon {...p}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></Icon>;
+const X = (p) => <Icon {...p}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></Icon>;
+const Loader = (p) => <Icon {...p}><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></Icon>;
 
 // ---------- Arrow Pattern ------------------------------------------------
 const ArrowPattern = ({ opacity = 0.05 }) => (
@@ -95,19 +130,6 @@ const ArrowPattern = ({ opacity = 0.05 }) => (
     <rect width="100%" height="100%" fill="url(#ap)" />
   </svg>
 );
-
-// ---------- Icons ---------------------------------------------------------
-const Icon = ({ children, size = 16, color = "currentColor", stroke = 2 }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24"
-    fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round">
-    {children}
-  </svg>
-);
-const ArrowUpRight = (p) => <Icon {...p}><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></Icon>;
-const CheckIcon = (p) => <Icon {...p} stroke={3}><polyline points="20 6 9 17 4 12"/></Icon>;
-const ExternalLink = (p) => <Icon {...p}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></Icon>;
-const X = (p) => <Icon {...p}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></Icon>;
-const Loader = (p) => <Icon {...p}><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></Icon>;
 
 // ---------- Logo -----------------------------------------------------------
 const Logo = () => (
@@ -140,11 +162,11 @@ const SlotsBadge = ({ slotsLeft = 3, total = 10 }) => (
 // ---------- CTA Button ----------------------------------------------------
 const CTAButton = ({ label, outline, onClick }) => (
   <button onClick={onClick}
-    className={`inline-flex items-center gap-2 px-5 py-2.5 font-bold text-[12.5px] tracking-[0.1em] transition-colors ${outline ? '' : ''}`}
+    className={`inline-flex items-center gap-2 px-5 py-2.5 font-bold text-[12.5px] tracking-[0.1em] transition-colors ${outline ? 'border border-cream/30' : ''}`}
     style={{
       background: outline ? 'transparent' : C.cream,
       color: outline ? C.cream : C.ink,
-      border: outline ? `1px solid ${C.cream}55` : 'none',
+      borderColor: outline ? `${C.cream}55` : 'transparent',
       fontFamily: FONT_DISPLAY
     }}
     onMouseEnter={(e) => {
@@ -161,7 +183,7 @@ const CTAButton = ({ label, outline, onClick }) => (
 
 // ============ MODAL ======================================================
 const Modal = ({ isOpen, onClose }) => {
-  const [step, setStep] = useState("form"); // "form" or "success"
+  const [step, setStep] = useState("form");
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     fullName: "", email: "", phone: "", creatorType: "",
@@ -252,166 +274,158 @@ const Modal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <AnimatePresence>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-        style={{ background: "rgba(8,9,31,0.85)" }} onClick={closeAndReset}>
-        <motion.div initial={{ scale: 0.95, y: 10 }} animate={{ scale: 1, y: 0 }}
-          exit={{ scale: 0.95, y: 10 }} transition={{ type: "spring", damping: 22 }}
-          onClick={(e) => e.stopPropagation()}
-          className="relative max-w-lg w-full bg-white max-h-[90vh] overflow-y-auto"
-          style={{ fontFamily: FONT_BODY }}>
-          <button onClick={closeAndReset} className="absolute top-3 right-3 p-1" aria-label="Close">
-            <X size={18} color={C.ink} />
-          </button>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay show" style={{ background: "rgba(8,9,31,0.85)" }} onClick={closeAndReset}>
+      <div className="relative max-w-lg w-full bg-white max-h-[90vh] overflow-y-auto modal-content" style={{ fontFamily: FONT_BODY }} onClick={(e) => e.stopPropagation()}>
+        <button onClick={closeAndReset} className="absolute top-3 right-3 p-1" aria-label="Close">
+          <X size={18} color={C.ink} />
+        </button>
 
-          {step === "form" ? (
-            <div className="p-6">
-              <div className="mb-5">
-                <h3 className="text-xl font-bold" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>Get Your Website In 48 Hours</h3>
-                <p className="text-[13.5px] mt-1" style={{ color: "#555" }}>Tell us a little about yourself and we'll get back to you.</p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                <div>
-                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Full Name *</label>
-                  <input type="text" value={form.fullName} onChange={update("fullName")}
-                    className="w-full px-3 py-2 border text-[13.5px] text-black"
-                    style={{ borderColor: errors.fullName ? C.red : `${C.ink}33` }} />
-                  {errors.fullName && <span className="text-xs" style={{ color: C.red }}>{errors.fullName}</span>}
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Email *</label>
-                    <input type="email" value={form.email} onChange={update("email")}
-                      className="w-full px-3 py-2 border text-[13.5px] text-black"
-                      style={{ borderColor: errors.email ? C.red : `${C.ink}33` }} />
-                    {errors.email && <span className="text-xs" style={{ color: C.red }}>{errors.email}</span>}
-                  </div>
-                  <div>
-                    <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Phone / WhatsApp *</label>
-                    <input type="tel" value={form.phone} onChange={update("phone")}
-                      className="w-full px-3 py-2 border text-[13.5px] text-black"
-                      style={{ borderColor: errors.phone ? C.red : `${C.ink}33` }} />
-                    {errors.phone && <span className="text-xs" style={{ color: C.red }}>{errors.phone}</span>}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>What best describes you? *</label>
-                  <select value={form.creatorType} onChange={update("creatorType")}
-                    className="w-full px-3 py-2 border text-[13.5px] text-black bg-white"
-                    style={{ borderColor: errors.creatorType ? C.red : `${C.ink}33` }}>
-                    <option value="">Select...</option>
-                    <option>Music Artist</option>
-                    <option>Content Creator</option>
-                    <option>Photographer</option>
-                    <option>Videographer</option>
-                    <option>DJ</option>
-                    <option>Event Host / MC</option>
-                    <option>Small Business</option>
-                    <option>Personal Brand</option>
-                    <option>Other</option>
-                  </select>
-                  {errors.creatorType && <span className="text-xs" style={{ color: C.red }}>{errors.creatorType}</span>}
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Do you have a website you like? (up to 3 links)</label>
-                  <textarea value={form.inspirationLinks} onChange={update("inspirationLinks")} rows={2}
-                    className="w-full px-3 py-2 border text-[13.5px] text-black"
-                    style={{ borderColor: `${C.ink}33` }} placeholder="Paste links for inspiration" />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>What should your website help you do?</label>
-                  <div className="grid grid-cols-2 gap-1">
-                    {["Showcase my work","Get bookings","Receive inquiries","Collect leads","Build my personal brand","Other"].map(goal => (
-                      <label key={goal} className="flex items-center gap-2 text-[13px]" style={{ cursor: "pointer" }}>
-                        <input type="checkbox" checked={form.goals.includes(goal)} onChange={() => toggleGoal(goal)} /> {goal}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>How soon can you provide your content? *</label>
-                  <select value={form.contentTimeline} onChange={update("contentTimeline")}
-                    className="w-full px-3 py-2 border text-[13.5px] text-black bg-white"
-                    style={{ borderColor: errors.contentTimeline ? C.red : `${C.ink}33` }}>
-                    <option value="">Select...</option>
-                    <option>Today</option>
-                    <option>Within 3 Days</option>
-                    <option>Within 1 Week</option>
-                    <option>Not Sure Yet</option>
-                  </select>
-                  {errors.contentTimeline && <span className="text-xs" style={{ color: C.red }}>{errors.contentTimeline}</span>}
-                  <p className="text-[11px] mt-1" style={{ color: "#666" }}>We'll need a simple document containing your bio, links, photos, social media accounts and anything else you'd like included.</p>
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Anything else we should know?</label>
-                  <textarea value={form.additionalNotes} onChange={update("additionalNotes")} rows={2}
-                    className="w-full px-3 py-2 border text-[13.5px] text-black"
-                    style={{ borderColor: `${C.ink}33` }} placeholder="Specific colours, design direction, special requests..." />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-semibold mb-2" style={{ fontFamily: FONT_MONO, color: C.ink }}>Optional Add‑ons</label>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <input type="checkbox" checked readOnly className="accent-black" />
-                      <span className="text-[13.5px] font-medium">30K Website — ₦30,000</span>
-                      <span className="text-[11px]" style={{ color: "#888" }}>(required)</span>
-                    </div>
-                    {[
-                      { id: "domain", label: "Custom Domain Setup", price: "₦30,000/year" },
-                      { id: "email", label: "Professional Email Setup", price: "₦30,000/year" },
-                      { id: "pages", label: "Additional Website Pages", price: "from ₦30,000" },
-                      { id: "ads", label: "Future Advertising Support", price: "Let's talk" }
-                    ].map(opt => (
-                      <label key={opt.id} className="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" checked={form.addons[opt.id]} onChange={() => toggleAddon(opt.id)} />
-                        <span className="text-[13.5px]">{opt.label} — {opt.price}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <p className="text-[12px] italic" style={{ color: "#666" }}>
-                  One revision round included after delivery. Clear content = better result.
-                </p>
-
-                <button type="submit" disabled={loading}
-                  className="w-full py-3 font-bold text-[13px] tracking-[0.1em] flex items-center justify-center gap-2 transition-colors"
-                  style={{ background: C.ink, color: C.cream, fontFamily: FONT_DISPLAY, opacity: loading ? 0.6 : 1 }}>
-                  {loading ? <><Loader size={14} className="animate-spin" /> SUBMITTING…</> : "GET MY WEBSITE"}
-                </button>
-                <p className="text-[11px] text-center" style={{ color: "#999" }}>
-                  By submitting, you're letting us know you're interested. We'll review and get back to you with next steps.
-                </p>
-              </form>
+        {step === "form" ? (
+          <div className="p-6">
+            <div className="mb-5">
+              <h3 className="text-xl font-bold" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>Get Your Website In 48 Hours</h3>
+              <p className="text-[13.5px] mt-1" style={{ color: "#555" }}>Tell us a little about yourself and we'll get back to you.</p>
             </div>
-          ) : (
-            <div className="p-6 text-center">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: C.lime }}>
-                <CheckIcon size={24} color={C.ink} />
+
+            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+              <div>
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Full Name *</label>
+                <input type="text" value={form.fullName} onChange={update("fullName")}
+                  className="w-full px-3 py-2 border text-[13.5px] text-black"
+                  style={{ borderColor: errors.fullName ? C.red : `${C.ink}33` }} />
+                {errors.fullName && <span className="text-xs" style={{ color: C.red }}>{errors.fullName}</span>}
               </div>
-              <h3 className="text-xl font-bold mb-2" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>Received! We'll be in touch.</h3>
-              <p className="text-[13.5px] leading-relaxed" style={{ color: "#444" }}>
-                Check your inbox for a confirmation email. If your slot is confirmed, we'll send next steps within 24 hours.
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Email *</label>
+                  <input type="email" value={form.email} onChange={update("email")}
+                    className="w-full px-3 py-2 border text-[13.5px] text-black"
+                    style={{ borderColor: errors.email ? C.red : `${C.ink}33` }} />
+                  {errors.email && <span className="text-xs" style={{ color: C.red }}>{errors.email}</span>}
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Phone / WhatsApp *</label>
+                  <input type="tel" value={form.phone} onChange={update("phone")}
+                    className="w-full px-3 py-2 border text-[13.5px] text-black"
+                    style={{ borderColor: errors.phone ? C.red : `${C.ink}33` }} />
+                  {errors.phone && <span className="text-xs" style={{ color: C.red }}>{errors.phone}</span>}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>What best describes you? *</label>
+                <select value={form.creatorType} onChange={update("creatorType")}
+                  className="w-full px-3 py-2 border text-[13.5px] text-black bg-white"
+                  style={{ borderColor: errors.creatorType ? C.red : `${C.ink}33` }}>
+                  <option value="">Select...</option>
+                  <option>Music Artist</option>
+                  <option>Content Creator</option>
+                  <option>Photographer</option>
+                  <option>Videographer</option>
+                  <option>DJ</option>
+                  <option>Event Host / MC</option>
+                  <option>Small Business</option>
+                  <option>Personal Brand</option>
+                  <option>Other</option>
+                </select>
+                {errors.creatorType && <span className="text-xs" style={{ color: C.red }}>{errors.creatorType}</span>}
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Do you have a website you like? (up to 3 links)</label>
+                <textarea value={form.inspirationLinks} onChange={update("inspirationLinks")} rows={2}
+                  className="w-full px-3 py-2 border text-[13.5px] text-black"
+                  style={{ borderColor: `${C.ink}33` }} placeholder="Paste links for inspiration" />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>What should your website help you do?</label>
+                <div className="grid grid-cols-2 gap-1">
+                  {["Showcase my work","Get bookings","Receive inquiries","Collect leads","Build my personal brand","Other"].map(goal => (
+                    <label key={goal} className="flex items-center gap-2 text-[13px]" style={{ cursor: "pointer" }}>
+                      <input type="checkbox" checked={form.goals.includes(goal)} onChange={() => toggleGoal(goal)} /> {goal}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>How soon can you provide your content? *</label>
+                <select value={form.contentTimeline} onChange={update("contentTimeline")}
+                  className="w-full px-3 py-2 border text-[13.5px] text-black bg-white"
+                  style={{ borderColor: errors.contentTimeline ? C.red : `${C.ink}33` }}>
+                  <option value="">Select...</option>
+                  <option>Today</option>
+                  <option>Within 3 Days</option>
+                  <option>Within 1 Week</option>
+                  <option>Not Sure Yet</option>
+                </select>
+                {errors.contentTimeline && <span className="text-xs" style={{ color: C.red }}>{errors.contentTimeline}</span>}
+                <p className="text-[11px] mt-1" style={{ color: "#666" }}>We'll need a simple document containing your bio, links, photos, social media accounts and anything else you'd like included.</p>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Anything else we should know?</label>
+                <textarea value={form.additionalNotes} onChange={update("additionalNotes")} rows={2}
+                  className="w-full px-3 py-2 border text-[13.5px] text-black"
+                  style={{ borderColor: `${C.ink}33` }} placeholder="Specific colours, design direction, special requests..." />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold mb-2" style={{ fontFamily: FONT_MONO, color: C.ink }}>Optional Add‑ons</label>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <input type="checkbox" checked readOnly className="accent-black" />
+                    <span className="text-[13.5px] font-medium">30K Website — ₦30,000</span>
+                    <span className="text-[11px]" style={{ color: "#888" }}>(required)</span>
+                  </div>
+                  {[
+                    { id: "domain", label: "Custom Domain Setup", price: "₦30,000/year" },
+                    { id: "email", label: "Professional Email Setup", price: "₦30,000/year" },
+                    { id: "pages", label: "Additional Website Pages", price: "from ₦30,000" },
+                    { id: "ads", label: "Future Advertising Support", price: "Let's talk" }
+                  ].map(opt => (
+                    <label key={opt.id} className="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" checked={form.addons[opt.id]} onChange={() => toggleAddon(opt.id)} />
+                      <span className="text-[13.5px]">{opt.label} — {opt.price}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <p className="text-[12px] italic" style={{ color: "#666" }}>
+                One revision round included after delivery. Clear content = better result.
               </p>
-              <button onClick={closeAndReset}
-                className="mt-5 px-5 py-2 font-bold text-xs tracking-wider"
-                style={{ background: C.ink, color: C.cream, fontFamily: FONT_DISPLAY }}>
-                CLOSE
+
+              <button type="submit" disabled={loading}
+                className="w-full py-3 font-bold text-[13px] tracking-[0.1em] flex items-center justify-center gap-2 transition-colors"
+                style={{ background: C.ink, color: C.cream, fontFamily: FONT_DISPLAY, opacity: loading ? 0.6 : 1 }}>
+                {loading ? <><Loader size={14} className="animate-spin" /> SUBMITTING…</> : "GET MY WEBSITE"}
               </button>
+              <p className="text-[11px] text-center" style={{ color: "#999" }}>
+                By submitting, you're letting us know you're interested. We'll review and get back to you with next steps.
+              </p>
+            </form>
+          </div>
+        ) : (
+          <div className="p-6 text-center">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: C.lime }}>
+              <CheckIcon size={24} color={C.ink} />
             </div>
-          )}
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
+            <h3 className="text-xl font-bold mb-2" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>Received! We'll be in touch.</h3>
+            <p className="text-[13.5px] leading-relaxed" style={{ color: "#444" }}>
+              Check your inbox for a confirmation email. If your slot is confirmed, we'll send next steps within 24 hours.
+            </p>
+            <button onClick={closeAndReset}
+              className="mt-5 px-5 py-2 font-bold text-xs tracking-wider"
+              style={{ background: C.ink, color: C.cream, fontFamily: FONT_DISPLAY }}>
+              CLOSE
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -439,48 +453,36 @@ const Hero = ({ openModal }) => {
         </nav>
 
         <div className="text-center">
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <div>
             <SectionLabel color={C.lime}>WHAT YOU'RE GETTING</SectionLabel>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.08 }}
-            className="font-bold leading-[0.9] tracking-[-0.025em]"
+          <div className="font-bold leading-[0.9] tracking-[-0.025em]"
             style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(2.75rem, 8vw, 5.5rem)" }}>
             The website you've been<br />putting off. <span style={{ color: C.lime }}>Done.</span>
-          </motion.div>
+          </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.16 }}
-            className="mt-4 md:mt-5 text-base md:text-lg max-w-xl mx-auto"
+          <p className="mt-4 md:mt-5 text-base md:text-lg max-w-xl mx-auto"
             style={{ color: C.peri, fontFamily: FONT_BODY }}>
             Built in 48 hours for ₦30,000. Send your content, get your site.
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.24 }}
-            className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {features.map((feat, i) => (
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            {features.map((feat) => (
               <div key={feat} className="flex items-center gap-3 px-5 py-4 text-left"
                 style={{ background: C.navySoft, border: `1px solid ${C.peri}22` }}>
                 <CheckIcon size={18} color={C.lime} />
                 <span className="text-base font-semibold" style={{ fontFamily: FONT_DISPLAY }}>{feat}</span>
               </div>
             ))}
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.32 }}
-            className="mt-8 flex flex-col items-center gap-4">
+          <div className="mt-8 flex flex-col items-center gap-4">
             <CTAButton label="GET MY WEBSITE" onClick={openModal} />
             <div className="flex justify-center">
               <SlotsBadge />
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
@@ -495,7 +497,7 @@ const AUDIENCE = [
 ];
 
 const WhoItsFor = () => (
-  <section className="relative py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
+  <section className="py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
     <div className="max-w-7xl mx-auto px-5 md:px-8">
       <div className="max-w-3xl mb-8">
         <SectionLabel color={C.navy}>WHO IT'S FOR</SectionLabel>
@@ -505,17 +507,14 @@ const WhoItsFor = () => (
         </h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-        {AUDIENCE.map((a, i) => (
-          <motion.div key={a} initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: i * 0.04 }}
-            className="group flex items-center justify-between px-4 py-3 cursor-default transition-colors"
+        {AUDIENCE.map((a) => (
+          <div key={a} className="group flex items-center justify-between px-4 py-3 cursor-default transition-colors"
             style={{ background: "white", border: `1px solid ${C.ink}22` }}
             onMouseEnter={(e) => { e.currentTarget.style.background = C.ink; e.currentTarget.style.color = C.cream; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "white"; e.currentTarget.style.color = C.ink; }}>
             <span className="text-base font-bold" style={{ fontFamily: FONT_DISPLAY }}>{a}</span>
             <ArrowUpRight size={16} />
-          </motion.div>
+          </div>
         ))}
       </div>
     </div>
@@ -524,7 +523,7 @@ const WhoItsFor = () => (
 
 // ============ HOW IT WORKS ================================================
 const HowItWorks = () => (
-  <section className="relative py-14 md:py-20" style={{ background: C.navy, color: C.cream }}>
+  <section className="py-14 md:py-20" style={{ background: C.navy, color: C.cream }}>
     <div className="max-w-5xl mx-auto px-5 md:px-8">
       <div className="text-center mb-10">
         <SectionLabel color={C.peri}>HOW IT WORKS</SectionLabel>
@@ -551,7 +550,7 @@ const HowItWorks = () => (
 
 // ============ DIFFERENTIATOR ==============================================
 const Differentiator = () => (
-  <section className="relative py-10 md:py-14" style={{ background: C.red, color: C.cream }}>
+  <section className="py-10 md:py-14" style={{ background: C.red, color: C.cream }}>
     <div aria-hidden className="absolute inset-0 opacity-15"
       style={{ backgroundImage: `repeating-linear-gradient(90deg, ${C.cream}22 0 1px, transparent 1px 14px)` }} />
     <div className="relative max-w-7xl mx-auto px-5 md:px-8">
@@ -577,7 +576,7 @@ const Differentiator = () => (
 
 // ============ ADD-ONS =====================================================
 const AddOns = () => (
-  <section className="relative py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
+  <section className="py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
     <div className="max-w-5xl mx-auto px-5 md:px-8">
       <SectionLabel color={C.navy}>ADD‑ONS FOR A MORE PROFESSIONAL TOUCH</SectionLabel>
       <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily: FONT_DISPLAY }}>
@@ -608,7 +607,7 @@ const AddOns = () => (
 
 // ============ PRICING & CONDITIONS ========================================
 const Pricing = ({ openModal }) => (
-  <section className="relative py-14 md:py-20" style={{ background: C.navy, color: C.cream }}>
+  <section className="py-14 md:py-20" style={{ background: C.navy, color: C.cream }}>
     <div className="max-w-7xl mx-auto px-5 md:px-8">
       <div className="max-w-4xl mx-auto text-center mb-10">
         <SectionLabel color={C.lime}>PRICING & CONDITIONS</SectionLabel>
@@ -658,7 +657,7 @@ const Pricing = ({ openModal }) => (
 
 // ============ EXAMPLE WEBSITE =============================================
 const Example = () => (
-  <section className="relative py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
+  <section className="py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
     <div className="max-w-5xl mx-auto px-5 md:px-8 text-center">
       <SectionLabel color={C.navy}>SEE WHAT WE'VE DONE</SectionLabel>
       <h2 className="text-3xl md:text-5xl font-bold leading-[0.95] mb-4" style={{ fontFamily: FONT_DISPLAY }}>
@@ -681,7 +680,7 @@ const Example = () => (
 
 // ============ WHAT YOU'LL NEED TO SEND US =================================
 const WhatYouNeed = () => (
-  <section className="relative py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
+  <section className="py-14 md:py-20" style={{ background: C.cream, color: C.ink }}>
     <div className="max-w-3xl mx-auto px-5 md:px-8">
       <SectionLabel color={C.navy}>WHAT YOU'LL NEED TO SEND US</SectionLabel>
       <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily: FONT_DISPLAY }}>
@@ -712,47 +711,43 @@ const FAQS = [
   { q: "What happens after 48 hours?", a: "Your site is live. Minor support for 7 days. After that, new requests are treated as separate projects." },
 ];
 
-const FAQItem = ({ q, a, isOpen, onToggle }) => (
-  <div className="border-b" style={{ borderColor: `${C.ink}1a` }}>
-    <button onClick={onToggle} className="w-full flex items-center justify-between gap-4 py-4 text-left" aria-expanded={isOpen}>
-      <span className="text-base font-bold leading-tight" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>{q}</span>
-      <motion.span animate={{ rotate: isOpen ? 45 : 0 }} transition={{ duration: 0.2 }}
-        className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center"
-        style={{ background: isOpen ? C.ink : "transparent", border: `1px solid ${C.ink}` }}>
-        <span style={{ color: isOpen ? C.cream : C.ink, fontSize: 16, lineHeight: 1 }}>+</span>
-      </motion.span>
-    </button>
-    <AnimatePresence initial={false}>
-      {isOpen && (
-        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.25 }} className="overflow-hidden">
-          <p className="pb-4 pr-10 text-[13.5px] leading-relaxed" style={{ color: "#444", fontFamily: FONT_BODY }}>{a}</p>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </div>
-);
-
-const FAQ = () => {
-  const [open, setOpen] = useState(-1);
+const FAQItem = ({ q, a }) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <section id="faq" className="py-14 md:py-20" style={{ background: C.cream }}>
-      <div className="max-w-4xl mx-auto px-5 md:px-8">
-        <SectionLabel color={C.navy}>FAQ</SectionLabel>
-        <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>
-          Questions, answered.
-        </h2>
-        {FAQS.map((f, i) => (
-          <FAQItem key={f.q} q={f.q} a={f.a} isOpen={open === i} onToggle={() => setOpen(open === i ? -1 : i)} />
-        ))}
-      </div>
-    </section>
+    <div className="border-b" style={{ borderColor: `${C.ink}1a` }}>
+      <button onClick={() => setIsOpen(!isOpen)} className="w-full flex items-center justify-between gap-4 py-4 text-left" aria-expanded={isOpen}>
+        <span className="text-base font-bold leading-tight" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>{q}</span>
+        <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform ${isOpen ? 'rotate-45' : ''}`}
+          style={{ background: isOpen ? C.ink : "transparent", border: `1px solid ${C.ink}` }}>
+          <span style={{ color: isOpen ? C.cream : C.ink, fontSize: 16, lineHeight: 1 }}>+</span>
+        </span>
+      </button>
+      {isOpen && (
+        <div className="overflow-hidden">
+          <p className="pb-4 pr-10 text-[13.5px] leading-relaxed" style={{ color: "#444", fontFamily: FONT_BODY }}>{a}</p>
+        </div>
+      )}
+    </div>
   );
 };
 
+const FAQ = () => (
+  <section id="faq" className="py-14 md:py-20" style={{ background: C.cream }}>
+    <div className="max-w-4xl mx-auto px-5 md:px-8">
+      <SectionLabel color={C.navy}>FAQ</SectionLabel>
+      <h2 className="text-3xl md:text-4xl font-bold leading-[0.95] mb-8" style={{ fontFamily: FONT_DISPLAY, color: C.ink }}>
+        Questions, answered.
+      </h2>
+      {FAQS.map((f) => (
+        <FAQItem key={f.q} q={f.q} a={f.a} />
+      ))}
+    </div>
+  </section>
+);
+
 // ============ FINAL CTA ===================================================
 const FinalCTA = ({ openModal }) => (
-  <section className="relative py-14 md:py-20 overflow-hidden" style={{ background: C.ink, color: C.cream }}>
+  <section className="py-14 md:py-20 overflow-hidden" style={{ background: C.ink, color: C.cream }}>
     <ArrowPattern opacity={0.05} />
     <div className="relative max-w-3xl mx-auto px-5 md:px-8 text-center">
       <h2 className="font-bold leading-[0.92] tracking-[-0.02em]"
@@ -824,7 +819,7 @@ function App() {
       <FAQ />
       <FinalCTA openModal={openModal} />
       <Footer />
-      <Modal isOpen={modalOpen} onClose={closeModal} />
+      {modalOpen && <Modal isOpen={modalOpen} onClose={closeModal} />}
     </div>
   );
 }
