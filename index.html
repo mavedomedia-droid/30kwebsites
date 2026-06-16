@@ -23,7 +23,7 @@
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
-<!-- Framer Motion -->
+<!-- Framer Motion (UMD) -->
 <script crossorigin src="https://unpkg.com/framer-motion@11.0.8/dist/framer-motion.js"></script>
 
 <!-- Babel -->
@@ -57,7 +57,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, Fragment } = React;
-const { motion, AnimatePresence } = window.Motion || window.FramerMotion || window.framerMotion || window.framer_motion || window["framer-motion"] || window.MotionGlobal || window;
+const { motion, AnimatePresence } = window.Motion || window.FramerMotion || window.framerMotion || window.framer_motion || window["framer-motion"] || {};
 
 /* =========================================================================
    30k WEBSITES – The website you've been putting off. Done.
@@ -78,7 +78,7 @@ const FONT_DISPLAY = "'Bricolage Grotesque', system-ui, sans-serif";
 const FONT_BODY = "'Geist', system-ui, sans-serif";
 const FONT_MONO = "'JetBrains Mono', ui-monospace, monospace";
 
-const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwPy4D8X5NJHRjR2kthlDPlke6ptb7zxzJqvm-p3byYaQc9x-K9UDB7BsNgRRA3s8RUsQ/exec"; // Replace with your Google Apps Script web app URL
+const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwPy4D8X5NJHRjR2kthlDPlke6ptb7zxzJqvm-p3byYaQc9x-K9UDB7BsNgRRA3s8RUsQ/exec"; // Replace with your actual web app URL
 
 // ---------- Arrow Pattern ------------------------------------------------
 const ArrowPattern = ({ opacity = 0.05 }) => (
@@ -164,15 +164,9 @@ const Modal = ({ isOpen, onClose }) => {
   const [step, setStep] = useState("form"); // "form" or "success"
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    creatorType: "",
-    inspirationLinks: "",
-    goals: [],
-    contentTimeline: "",
-    additionalNotes: "",
-    addons: { domain: false, email: false, pages: false, ads: false }
+    fullName: "", email: "", phone: "", creatorType: "",
+    inspirationLinks: "", goals: [], contentTimeline: "",
+    additionalNotes: "", addons: { domain: false, email: false, pages: false, ads: false }
   });
   const [errors, setErrors] = useState({});
 
@@ -226,25 +220,19 @@ const Modal = ({ isOpen, onClose }) => {
     };
 
     try {
-      // Replace the fetch URL with your actual Google Apps Script endpoint
       await fetch(GAS_ENDPOINT, {
         method: "POST",
-        mode: "no-cors", // Remove in production if CORS is properly set up
+        mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload)
       });
-      // Push to dataLayer for tracking
-      if (typeof window !== "undefined" && window.dataLayer) {
-        window.dataLayer.push({
-          event: "website_inquiry",
-          creatorType: form.creatorType
-        });
+      if (window.dataLayer) {
+        window.dataLayer.push({ event: "website_inquiry", creatorType: form.creatorType });
       }
       setStep("success");
     } catch (err) {
       console.error(err);
-      // Still show success in demo
-      setStep("success");
+      setStep("success"); // fallback for demo
     } finally {
       setLoading(false);
     }
@@ -253,8 +241,9 @@ const Modal = ({ isOpen, onClose }) => {
   const closeAndReset = () => {
     setStep("form");
     setForm({
-      fullName: "", email: "", phone: "", creatorType: "", inspirationLinks: "", goals: [],
-      contentTimeline: "", additionalNotes: "", addons: { domain: false, email: false, pages: false, ads: false }
+      fullName: "", email: "", phone: "", creatorType: "", inspirationLinks: "",
+      goals: [], contentTimeline: "", additionalNotes: "",
+      addons: { domain: false, email: false, pages: false, ads: false }
     });
     setErrors({});
     onClose();
@@ -284,7 +273,6 @@ const Modal = ({ isOpen, onClose }) => {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                {/* Full Name */}
                 <div>
                   <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Full Name *</label>
                   <input type="text" value={form.fullName} onChange={update("fullName")}
@@ -293,7 +281,6 @@ const Modal = ({ isOpen, onClose }) => {
                   {errors.fullName && <span className="text-xs" style={{ color: C.red }}>{errors.fullName}</span>}
                 </div>
 
-                {/* Email & Phone */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Email *</label>
@@ -311,7 +298,6 @@ const Modal = ({ isOpen, onClose }) => {
                   </div>
                 </div>
 
-                {/* Creator Type */}
                 <div>
                   <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>What best describes you? *</label>
                   <select value={form.creatorType} onChange={update("creatorType")}
@@ -331,7 +317,6 @@ const Modal = ({ isOpen, onClose }) => {
                   {errors.creatorType && <span className="text-xs" style={{ color: C.red }}>{errors.creatorType}</span>}
                 </div>
 
-                {/* Inspiration Links */}
                 <div>
                   <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Do you have a website you like? (up to 3 links)</label>
                   <textarea value={form.inspirationLinks} onChange={update("inspirationLinks")} rows={2}
@@ -339,11 +324,10 @@ const Modal = ({ isOpen, onClose }) => {
                     style={{ borderColor: `${C.ink}33` }} placeholder="Paste links for inspiration" />
                 </div>
 
-                {/* Goals (checkboxes) */}
                 <div>
                   <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>What should your website help you do?</label>
                   <div className="grid grid-cols-2 gap-1">
-                    {["Showcase my work", "Get bookings", "Receive inquiries", "Collect leads", "Build my personal brand", "Other"].map(goal => (
+                    {["Showcase my work","Get bookings","Receive inquiries","Collect leads","Build my personal brand","Other"].map(goal => (
                       <label key={goal} className="flex items-center gap-2 text-[13px]" style={{ cursor: "pointer" }}>
                         <input type="checkbox" checked={form.goals.includes(goal)} onChange={() => toggleGoal(goal)} /> {goal}
                       </label>
@@ -351,7 +335,6 @@ const Modal = ({ isOpen, onClose }) => {
                   </div>
                 </div>
 
-                {/* Content Timeline */}
                 <div>
                   <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>How soon can you provide your content? *</label>
                   <select value={form.contentTimeline} onChange={update("contentTimeline")}
@@ -367,7 +350,6 @@ const Modal = ({ isOpen, onClose }) => {
                   <p className="text-[11px] mt-1" style={{ color: "#666" }}>We'll need a simple document containing your bio, links, photos, social media accounts and anything else you'd like included.</p>
                 </div>
 
-                {/* Additional Notes */}
                 <div>
                   <label className="block text-[11px] font-semibold mb-1" style={{ fontFamily: FONT_MONO, color: C.ink }}>Anything else we should know?</label>
                   <textarea value={form.additionalNotes} onChange={update("additionalNotes")} rows={2}
@@ -375,7 +357,6 @@ const Modal = ({ isOpen, onClose }) => {
                     style={{ borderColor: `${C.ink}33` }} placeholder="Specific colours, design direction, special requests..." />
                 </div>
 
-                {/* Add-ons */}
                 <div>
                   <label className="block text-[11px] font-semibold mb-2" style={{ fontFamily: FONT_MONO, color: C.ink }}>Optional Add‑ons</label>
                   <div className="space-y-2">
@@ -398,18 +379,15 @@ const Modal = ({ isOpen, onClose }) => {
                   </div>
                 </div>
 
-                {/* Iteration Policy */}
                 <p className="text-[12px] italic" style={{ color: "#666" }}>
                   One revision round included after delivery. Clear content = better result.
                 </p>
 
-                {/* Submit */}
                 <button type="submit" disabled={loading}
                   className="w-full py-3 font-bold text-[13px] tracking-[0.1em] flex items-center justify-center gap-2 transition-colors"
                   style={{ background: C.ink, color: C.cream, fontFamily: FONT_DISPLAY, opacity: loading ? 0.6 : 1 }}>
                   {loading ? <><Loader size={14} className="animate-spin" /> SUBMITTING…</> : "GET MY WEBSITE"}
                 </button>
-
                 <p className="text-[11px] text-center" style={{ color: "#999" }}>
                   By submitting, you're letting us know you're interested. We'll review and get back to you with next steps.
                 </p>
@@ -437,7 +415,7 @@ const Modal = ({ isOpen, onClose }) => {
   );
 };
 
-// ============ HERO (What You're Getting) =================================
+// ============ HERO ========================================================
 const Hero = ({ openModal }) => {
   const features = [
     "Your Bio & Story",
@@ -644,7 +622,7 @@ const Pricing = ({ openModal }) => (
         <div className="p-6" style={{ background: C.navySoft, border: `1px solid ${C.peri}22` }}>
           <div className="text-[10px] tracking-[0.2em] mb-3 font-semibold" style={{ fontFamily: FONT_MONO, color: C.peri }}>YOU GET</div>
           <ul className="space-y-2">
-            {["One‑page branded website", "48‑hour delivery", "Tracking & GTM container", "Best practices applied", "Contact/inquiry form"].map((item) => (
+            {["One‑page branded website","48‑hour delivery","Tracking & GTM container","Best practices applied","Contact/inquiry form"].map((item) => (
               <li key={item} className="flex items-start gap-2 text-[14px]" style={{ fontFamily: FONT_BODY, color: C.peri }}>
                 <CheckIcon size={14} color={C.lime} /> {item}
               </li>
@@ -710,7 +688,7 @@ const WhatYouNeed = () => (
         Just a few things to get started.
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {["A short bio", "Photos", "Social links", "Contact details", "Any design preferences"].map(item => (
+        {["A short bio","Photos","Social links","Contact details","Any design preferences"].map(item => (
           <div key={item} className="flex items-center gap-3 px-4 py-3" style={{ background: "white", border: `1px solid ${C.ink}22` }}>
             <CheckIcon size={16} color={C.ink} />
             <span className="text-[15px] font-medium" style={{ fontFamily: FONT_BODY }}>{item}</span>
@@ -829,11 +807,7 @@ const Footer = () => (
 // ============ APP ==========================================================
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
-
-  useEffect(() => {
-    window.dataLayer = window.dataLayer || [];
-  }, []);
-
+  useEffect(() => { window.dataLayer = window.dataLayer || []; }, []);
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
